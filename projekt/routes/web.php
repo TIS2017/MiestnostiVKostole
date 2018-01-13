@@ -25,8 +25,6 @@ Route::post('/prihlasenie', 'Auth\LoginController@login');
 Route::get('/registracia', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/registracia', 'Auth\RegisterController@register');
 
-
-
 //filtracia podla miestnosti
 Route::get('/miestnost', function () {
     return view('miestnost');
@@ -42,10 +40,22 @@ Route::get('/skupina', function () {
     return view('skupina');
 });
 
-Route::get('/profil', function () {
-    return view('profil');
-});
+//zobrazenie profilu
+Route::get('/profil', 'profilController@show');
 
 Route::get('/miestnost/udaje-o-skupine', function () {
     return view('udaje-o-skupine');
 });
+Route::get('/cas/udaje-o-skupine', function () {
+    return view('udaje-o-skupine');
+});
+
+//riadenie skupiny
+Route::get('/sprava-skupin', 'GroupManagementController@show');
+
+//registracia clenov adminom
+Route::get('/profil/vytvor-skupinu', 'RegisterGroupController@show');
+
+//registracia skupiny adminom
+Route::get('/profil/vytvor-clena', 'RegisterMemberController@show');
+
