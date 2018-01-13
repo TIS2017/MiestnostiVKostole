@@ -16,28 +16,36 @@
 		<div class="content-second">
 		 	<form>
 			 	<p align="center">
-				 	<input type="text" placeholder="NÁZOV MIESTNOSTI" name="room_name" value="" required>
+			 		<select name="day" id="day">
+		            	<option value="vyber"> --Vyber miestnosť-- </option>
+		            	<option value="1">55</option>
+          			</select>
 			    	<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
 	    	</form>
 	</div></div>
 		<div class="padding">
-	    <!-- Mapka -->
-		<img src="/img/mapa.png" alt="mapa" class="img-responsive section-image border"><br>
+	    <!-- Mapa -->
+		@include('layouts.includes.mapa')
 
 		<!-- Nazvy miestnosti -->
 		
 			<h1 class="h1-text">MIESTNOSŤ A</h1>
-			<table>
+			<table class="filtab">
 				<thead>
 			 		<tr>
-					   	<th>deň od | do</th>
-					   	<th>skupina</th> 
+					   	<th class="filter">deň od | do</th>
+					   	<th class="filter">skupina</th>  
 			  		</tr>
 			  	</thead>
 		  		<tr>
 		    		<td>PO 11:00 - 12:00</td>
 		    		<td><a href="/miestnost/udaje-o-skupine" class="btn-hover">SKUP 1</a></td>
+		    		<?php
+		    		/*
+		    		pridat moze iba naduzivatel a administrator 
+		    		<td><button class="two" type="submit">Pridať</button></td>  */
+		    		?>
 		  		</tr>
 		 	</table>
 	 	</div>

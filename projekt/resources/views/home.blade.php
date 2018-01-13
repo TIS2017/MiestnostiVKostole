@@ -9,7 +9,7 @@
 
     <!-- Mapa -->
     <div class="section-mapa">
-        <img src="/img/mapa.png" alt="mapa" class="img-responsive section-image"> 
+        @include('layouts.includes.mapa')
     </div>
 
     <?php 
@@ -33,5 +33,6 @@
             showAlert("Registrácia prebehla úspešne.");
         </script>
     @endif
+
 
 @endsection

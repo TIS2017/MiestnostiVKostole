@@ -16,7 +16,10 @@
 		<div class="content-second">
 		 	<form>
 			 	<p align="center">
-				 	<input type="text" placeholder="NÁZOV SKUPINY" name="skupina" value="" required>
+				 	<select name="day" id="day">
+			            <option value="vyber">--Vyber skupinu--</option>
+			            <option value="1">skup1</option>
+			        </select>
     				<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
 	    	</form>
@@ -24,23 +27,26 @@
 
 	<div class="padding">
 	    <!-- Mapa -->
-		<img src="/img/mapa.png" alt="mapa" class="img-responsive section-image border"><br>
+		@include('layouts.includes.mapa')
 
 		<!-- Nazvy miestnosti a skupiny -->
 		
 		<h1 class="h1-text">SKUP 1</h1>
-		<table>
+		<table class="filtab">
 			<thead>
 			 	<tr>
-					<th>deň od | do</th>
-	   				<th>miestnosť</th>
-	   				<th></th> 
+					<th class="filter">deň od | do</th>
+	   				<th class="filter">miestnosť</th>
+	   			<?php	//<th class="filter"></th>  ?>
 			  	</tr>
 			  </thead>
 		  	<tr>
 		    	<td>PO 11:00 - 12:00</td>
 		    	<td>45</td>
-		    	<td><button class="two" type="submit">zrušiť</button></td>
+		    	<?php
+		    	//zrusit skupinu moze len administrator a naduzivatel
+		    	//<td><button class="two" type="submit">zrušiť</button></td>
+		    	?>
 		  	</tr>
 		 </table>
 	 </div>
