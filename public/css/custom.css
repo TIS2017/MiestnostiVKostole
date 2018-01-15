@@ -1,21 +1,21 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
-	//background-color: rgb(255,230,213);
 }
 div.alert-messages {
     position: fixed;
-    top: 300px;
+    top: 100px;
     left: 25%;
-    right: 45%;
+    right: 25%;
     z-index: 7000;
 }
 
-.header-text{
+/*-----header----*/
+.header-text{               /*umiestnenie register/login*/
 	line-height: 150px;
   	text-align: right;
 }
-.header-text a{
+.header-text a{             /*uprava register/login a*/
 	color: rgb(122,79,24);
 	font-weight: bold;
 	text-decoration: none;
@@ -37,11 +37,52 @@ div.alert-messages {
 	//padding-right: 10em;
   }
 }
-
-.section-mapa{
+/* -------mapa-------*/
+.section-mapa{                    /*pozadie za mapou*/
 	padding:3%;
 	background-color: rgb(122,79,24);
 }
+table.mapa {                                /*pozadie mapy + ram*/
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;;
+}
+th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100px;
+  height: 90px;
+  text-align: center; 
+} 
+.wc {
+  width: 50px;
+  background-color: rgb(226,218,218);        
+}
+td {
+  width: 70px;  
+}
+.medzera {
+  height: 30px;
+}
+.m54 {
+  height: 75px;  
+}
+.pasivna {
+  height: 75px;  
+  background-color: rgb(226,218,218);
+}
+a {
+  color: black;
+  text-decoration: none;  
+}
+.dvor {
+  border-style: none;  
+}
+.mapa a:hover {
+  text-decoration: none;
+  color: black;
+}
+/*------filtracia-------*/
 .section-filtracia{
 	background-color: rgb(255,230,213);
 	padding-bottom: 30px;
@@ -92,7 +133,47 @@ div.alert-messages {
     font-size: 17px;
     resize: vertical;
 }
+select.den {    
+    width: 150px;
+    padding: 14px 20px;
+    margin: 8px 20px 8px 0px;
+} 
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none; 
 
+    width: 320px;
+    padding: 14px 20px;
+    margin: 8px 50px;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 25px;
+    background-color: rgb(174,148,115);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 17px;
+    resize: vertical;
+}
+select.od {
+    width: 70px;
+    margin: 8px -2px 8px 0px;
+    padding: 14px 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    text-align: right;
+}
+select.do {
+    width: 70px;
+    margin: 8px 50px 8px -2px;
+    padding: 14px 0px;  
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    text-align: left;
+}
 input[type=text] {
     width: 320px;
     padding: 14px 20px;
@@ -120,7 +201,7 @@ input[type=text], input[type=password] {
     text-align: center;
     font-size: 17px;
      resize: vertical;
-}
+}/*
 input[type=text].one {
 	font-family: Arial, Helvetica, sans-serif;
     width: 100px;
@@ -135,7 +216,8 @@ input[type=text].one {
     font-weight: bold;
     text-align: center;
     font-size: 17px;
-}
+}*/
+/*
 input[type=text].two {
 	font-family: Arial, Helvetica, sans-serif;
     width: 120px;
@@ -150,7 +232,7 @@ input[type=text].two {
     font-weight: bold;
     text-align: center;
     font-size: 17px;
-}
+}*/
 
 table button.two {
 	background-color: rgb(43,17,0);
@@ -214,22 +296,27 @@ article {
    font-weight: bold;
    text-decoration: none;
 }
-
-table {
-	text-align: center;
-	color: rgb(128,51,0);
-	font-size: 20px;
-	font-weight: bold;
-	width: 70%;
-	margin-left: auto;
-	margin-right: auto;
+table.filtab {
+  text-align: center;
+  color: rgb(128,51,0);
+  font-size: 20px;
+  font-weight: bold;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
-table th{
-	width: 100px;
-	text-align: center;
+table th.filter{
+  width: 100px;
+  text-align: center;
+  border: none; 
+}
+.mena {
+  text-align: left;
+  border: none;
 }
 .width-200{
 	width: 200px;
+  border: none;
 }
 
 table td{
@@ -247,6 +334,9 @@ table td{
 }
 .padding-bottom{
 	padding-bottom: 5em;
+}
+.padding-top-5{
+  padding-top: 5em;
 }
 
 .center {
@@ -331,14 +421,13 @@ table td{
 }
 .color-white-profil {
 	color: white;
-	font-size: 20px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-/*
-aside {
-	padding: 50px;
-}*/
-
 .btn-fix {
    width: 110px;
    text-align: center;
