@@ -15,7 +15,7 @@
   				  <a href="/prihlasenie">LOG IN</a>
 
           @else
-            <a href="/profil">MÔJ PROFIL /</a>
+            <a href="/profil">Môj profil / </a>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ODHLÁSIŤ
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

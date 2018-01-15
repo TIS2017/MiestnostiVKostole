@@ -14,7 +14,9 @@
 
 	<div class="content">
 		<div class="content-second">
-		 	<form>
+
+				<form method="post" action="{{action('FilterController@filterTime')}}">
+						{{ csrf_field() }}
 			 	<p align="center">
 			 		<span class="text">DEŇ:</span>
 			        <select class="den" name="den" id="den">
@@ -28,15 +30,19 @@
 			            <option value="7">Nedeľa</option>
 			        </select>
 
-			        <span class="text">ČAS:</span> 
-			        <select class="od" name="od" id="od">
-			            <option value="vyber">--od--</option>
-			            <option value="1">11hod</option>
-			        </select>
-			        <select class="do" name="do" id="do">
-			            <option value="vyber">--do--</option>
-			            <option value="1">12hod</option>
-			        </select>
+					<select class="od" name="od" id="od">
+							<option value="0">--od--</option>
+							@for ($i = 1; $i < 25; $i++)
+							<option value="{{ $i }}">{{$i}}</option>
+							   @endfor
+						</select>
+			 
+						<select class="do" name="do" id="do">
+							<option value="24">--do--</option>
+							@for ($i = 1; $i < 25; $i++)
+							<option value="{{ $i }}">{{$i}}</option>
+							   @endfor
+						</select>
 
     				<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
@@ -47,8 +53,12 @@
 		@include('layouts.includes.mapa')
 
 		<!-- Nazvy miestnosti a skupiny -->
-		
-			<h1 class="h1-text">DEŇ OD | DO</h1>
+
+
+		@if(!empty($times))
+		@foreach ($times as $time)
+
+			<h1 class="h1-text">{{ $day or 'Pondelok' }} {{ $from or '00:00' }} | {{ $to or '24:00' }}</h1>
 			<table class="filtab">
 				<thead>
 			 		<tr>
@@ -57,8 +67,8 @@
 			  		</tr>
 			  	</thead>
 		  		<tr>
-		    		<td>54</td>
-		    		<td><a href="/cas/udaje-o-skupine" class="btn-hover">SKUP 1</a></td>
+		    		<td>{{ $time->room }}</td>
+		    		<td><a href="/cas/udaje-o-skupine" class="btn-hover">{{ $time->group }}</a></td>
 		    		<?php
 		    		//tiez iba naduzivatel a administrator
 		    		//pridat moze iba ak je volna miestnost
@@ -66,7 +76,11 @@
 		    		//<td><button class="two" type="submit">Pridať</button></td>
 		    		?>
 		  		</tr>
-		 	</table>
+			 </table>
+			 
+			 @endforeach
+		@endif	
+
 	 	</div>
 </section>
 

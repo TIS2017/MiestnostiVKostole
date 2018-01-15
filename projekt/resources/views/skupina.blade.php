@@ -14,12 +14,15 @@
 	
 	<div class="content">
 		<div class="content-second">
-		 	<form>
+		 	<form method="post" action="{{action('FilterController@filterGroup')}}" >
+					{{ csrf_field() }}
 			 	<p align="center">
-				 	<select name="day" id="day">
-			            <option value="vyber">--Vyber skupinu--</option>
-			            <option value="1">skup1</option>
-			        </select>
+						<select  name="group" id="group">
+								<<option value="vyber">--Vyber skupinu--</option>
+								@foreach ($grouplist as $item)
+									<option value={{$item}}>  {{$item}}  </option>
+								@endforeach
+						</select>
     				<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
 	    	</form>
@@ -31,7 +34,11 @@
 
 		<!-- Nazvy miestnosti a skupiny -->
 		
-		<h1 class="h1-text">SKUP 1</h1>
+		@if(!empty($groups))
+				@foreach ($groups as $group)
+					
+						
+		<h1 class="h1-text">{{ $group->group }}</h1>
 		<table class="filtab">
 			<thead>
 			 	<tr>
@@ -41,14 +48,18 @@
 			  	</tr>
 			  </thead>
 		  	<tr>
-		    	<td>PO 11:00 - 12:00</td>
-		    	<td>45</td>
+		    	<td>  {{ $collect-> get($group->day)}} {{ $group->time }} - {{ $group->end_time }}</td>
+		    	<td>{{ $group->room }}</td>
 		    	<?php
 		    	//zrusit skupinu moze len administrator a naduzivatel
 		    	//<td><button class="two" type="submit">zrušiť</button></td>
 		    	?>
 		  	</tr>
 		 </table>
+
+		 @endforeach
+				@endif
+
 	 </div>
 </section>
 

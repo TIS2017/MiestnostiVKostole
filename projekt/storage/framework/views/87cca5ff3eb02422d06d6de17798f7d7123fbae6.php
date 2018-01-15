@@ -1,9 +1,9 @@
 <?php $__env->startSection('content'); ?>
-<div class="container">
+<div class="section content padding-top-5 padding-bottom">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                <div class="panel-heading">Obnova hesla</div>
 
                 <div class="panel-body">
                     <?php if(session('status')): ?>
@@ -18,7 +18,7 @@
 
 
                         <div class="form-group<?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="<?php echo e(old('email')); ?>" required>
@@ -33,8 +33,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
+                                <button type="submit" class="btn btn-primary button-reg-login-udaje">
+                                    Obnoviť heslo
                                 </button>
                             </div>
                         </div>

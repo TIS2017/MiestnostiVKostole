@@ -8,7 +8,7 @@
 
     <!-- Mapa -->
     <div class="section-mapa">
-        <img src="/img/mapa.png" alt="mapa" class="img-responsive section-image"> 
+        <?php echo $__env->make('layouts.includes.mapa', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     </div>
 
     <?php 
@@ -32,6 +32,7 @@
             showAlert("Registrácia prebehla úspešne.");
         </script>
     <?php endif; ?>
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

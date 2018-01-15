@@ -26,19 +26,23 @@ Route::get('/registracia', 'Auth\RegisterController@showRegistrationForm');
 Route::post('/registracia', 'Auth\RegisterController@register');
 
 //filtracia podla miestnosti
-Route::get('/miestnost', function () {
-    return view('miestnost');
-});
+Route::get('/miestnost', 'FilterController@loadrooms');
+Route::get('/miestnost/filter', 'FilterController@filterRoom');
+Route::post('/miestnost', 'FilterController@loadrooms');
+Route::post('/miestnost/filter', 'FilterController@filterRoom');
 
 //filtracia podla casu
 Route::get('/cas', function () {
     return view('cas');
 });
+Route::post('/cas/filter', 'FilterController@filterTime');
+Route::get('/cas/filter', 'FilterController@filterTime');
 
 //filtracia podla skupiny
-Route::get('/skupina', function () {
-    return view('skupina');
-});
+Route::post('/skupina', 'FilterController@loadgroups');
+Route::post('/skupina/filter', 'FilterController@filterGroup');
+Route::get('/skupina', 'FilterController@loadgroups');
+Route::get('/skupina/filter', 'FilterController@filterGroup');
 
 //zobrazenie profilu
 Route::get('/profil', 'profilController@show');

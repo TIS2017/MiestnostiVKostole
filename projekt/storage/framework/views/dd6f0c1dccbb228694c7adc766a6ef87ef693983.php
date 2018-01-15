@@ -15,7 +15,7 @@
   				  <a href="/prihlasenie">LOG IN</a>
 
           <?php else: ?>
-            <a href="/profil">MÔJ PROFIL /</a>
+            <a href="/profil"><?php echo e(auth()->user('firstname')->firstname); ?> <?php echo e(auth()->user('lastname')->lastname); ?>  / </a>
             <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ODHLÁSIŤ
             </a>
             <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">

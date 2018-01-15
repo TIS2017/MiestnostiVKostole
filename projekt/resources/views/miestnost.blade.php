@@ -14,23 +14,38 @@
 
 	<div class="content">
 		<div class="content-second">
-		 	<form>
+
+
+			 <form method="post" action="{{action('FilterController@filterRoom')}}">
+				{{ csrf_field() }}
 			 	<p align="center">
-			 		<select name="day" id="day">
-		            	<option value="vyber"> --Vyber miestnosť-- </option>
-		            	<option value="1">55</option>
-          			</select>
+
+
+						<select  name="room" id="room">
+								<option value="vyber"> --Vyber miestnosť-- </option>
+								@foreach ($roomlist as $item)
+									<option value={{$item}}>  {{$item}}  </option>
+								@endforeach
+						</select>
+					  
+
 			    	<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
-	    	</form>
+			</form>
+			
+
 	</div></div>
 		<div class="padding">
 	    <!-- Mapa -->
 		@include('layouts.includes.mapa')
 
+
 		<!-- Nazvy miestnosti -->
-		
-			<h1 class="h1-text">MIESTNOSŤ A</h1>
+
+		@if(!empty($rooms))
+			@foreach ($rooms as $room)
+			
+			<h1 class="h1-text">{{ $room->room }}</h1>
 			<table class="filtab">
 				<thead>
 			 		<tr>
@@ -39,15 +54,19 @@
 			  		</tr>
 			  	</thead>
 		  		<tr>
-		    		<td>PO 11:00 - 12:00</td>
-		    		<td><a href="/miestnost/udaje-o-skupine" class="btn-hover">SKUP 1</a></td>
+		    		<td> {{ $collect-> get($room->day)}} {{ $room->time }} - {{ $room->end_time }} </td>
+		    		<td><a href="/miestnost/udaje-o-skupine" class="btn-hover">{{ $room->group }}</a></td>
 		    		<?php
 		    		/*
 		    		pridat moze iba naduzivatel a administrator 
 		    		<td><button class="two" type="submit">Pridať</button></td>  */
 		    		?>
 		  		</tr>
-		 	</table>
+			 </table>
+			 
+			@endforeach
+		@endif
+
 	 	</div>
 	
 </section>
