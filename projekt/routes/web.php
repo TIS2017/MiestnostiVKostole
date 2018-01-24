@@ -32,11 +32,10 @@ Route::post('/miestnost', 'FilterController@loadrooms');
 Route::post('/miestnost/filter', 'FilterController@filterRoom');
 
 //filtracia podla casu
-Route::get('/cas', function () {
-    return view('cas');
-});
+Route::get('/cas', 'FilterController@showTime');
+Route::post('/cas', 'FilterController@showTime');
 Route::post('/cas/filter', 'FilterController@filterTime');
-Route::get('/cas/filter', 'FilterController@filterTime');
+Route::get('/cas/filter', 'FilterController@showTime');
 
 //filtracia podla skupiny
 Route::post('/skupina', 'FilterController@loadgroups');
@@ -47,19 +46,21 @@ Route::get('/skupina/filter', 'FilterController@filterGroup');
 //zobrazenie profilu
 Route::get('/profil', 'profilController@show');
 
-Route::get('/miestnost/udaje-o-skupine', function () {
-    return view('udaje-o-skupine');
-});
-Route::get('/cas/udaje-o-skupine', function () {
-    return view('udaje-o-skupine');
-});
+//udaje o skupine
+Route::get('/udaje-o-skupine/{groupname}', 'InfoController@showGroupInfo');
+Route::post('/udaje-o-skupine/{groupname}', 'InfoController@addNotification');
+Route::get('/udaje-o-skupine/', 'InfoController@show');
+Route::post('/udaje-o-skupine/{groupname}/{request}', 'InfoController@confirmRequest');
+Route::delete('/udaje-o-skupine/{groupname}/{request}', 'InfoController@deleteRequest');
 
 //riadenie skupiny
 Route::get('/sprava-skupin', 'GroupManagementController@show');
 
 //registracia clenov adminom
 Route::get('/profil/vytvor-skupinu', 'RegisterGroupController@show');
+Route::post('/profil/vytvor-skupinu', 'RegisterGroupController@add');
 
 //registracia skupiny adminom
 Route::get('/profil/vytvor-clena', 'RegisterMemberController@show');
+Route::post('/profil/vytvor-clena', 'RegisterMemberController@add');
 
