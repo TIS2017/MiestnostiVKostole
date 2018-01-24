@@ -162,17 +162,17 @@ select.od {
     width: 70px;
     margin: 8px -2px 8px 0px;
     padding: 14px 0px;
-    border-top-right-radius: 0px;
+ /*   border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    text-align: right;
+    text-align: right;*/
 }
 select.do {
     width: 70px;
     margin: 8px 50px 8px -2px;
     padding: 14px 0px;  
-    border-top-left-radius: 0px;
+ /*   border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
-    text-align: left;
+    text-align: left;*/
 }
 input[type=text] {
     width: 320px;
@@ -237,7 +237,7 @@ input[type=text].two {
 table button.two {
 	background-color: rgb(43,17,0);
    color: white;
-   padding: 8px 20px;
+   padding: 4px 10px;
    border: none;
    border-radius: 25px;
    cursor: pointer;
@@ -354,14 +354,14 @@ table td{
 	color: rgb(174,148,115);
 	text-decoration: none;
 }
-.active {
+.active1 {
 	color: white;
 	font-weight: bold;
 	text-decoration: underline;
 	text-decoration-color: rgb(210,141,95);
 	//margin: 50px;
 }
-.active:hover{
+.active1:hover{
 	color: white;
 	text-decoration: underline;
 	text-decoration-color: rgb(210,141,95);
@@ -444,6 +444,18 @@ table td{
 	color: white;
 }
 
+.nav-justified>li>a {
+    font-weight: bold;
+}
+.nav-justified>li>a:hover {
+    color:rgb(43,17,0);
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff;
+    background-color: rgb(43,17,0);
+    text-decoration: none;
+}
+
 /*  --------------------------------  */
 
 
@@ -456,9 +468,9 @@ table td{
     
   }
   .filter-responsive{
-  	float: left;
+    float: left;
     overflow: hidden;
-	width: 33.33333333%;
+	 width: 33.33333333%;
   }
   .h2-text{
   	font-size: 1.5em;
@@ -466,52 +478,62 @@ table td{
 }
 
 @media (max-width: 660px) {
-	.button-reg-login, input[type=text],input[type=password], .button-filter{
+	.button-reg-login-udaje, input[type=text],input[type=password], .vyber, .button-filter{
     	width: 240px;
     	margin-left:0;
     	margin-right: 0;
     	font-size: 1em;
     	border:none;
 	}
+  .img {
+    width: 120px;
+  }
+  th, td {
+    font-size: 0.9em;
+  }
 }
 
-@media (max-width: 560px) {
-	.button-reg-login, input[type=text],input[type=password], .button-filter{
-    	width: 240px;
-    	margin-left:0;
-    	margin-right: 0;
-    	font-size: 1em;
-    	border:none;
-	}
-	article{
-		height: 60px;
-	}
-	.h1-text{
-		font-size: 1.5em;
-	}
-	table, .btn-fix{
-  		font-size: 1em;
-  	}
-  	.btn-hover:hover, .btn-fix {
-	   padding: 4px 10px;
-	   border-radius: 15px;
-	}
+@media (max-width: 540px) {
+	.button-reg-login-udaje, input[type=text],input[type=password], .vyber, .den, .od, .do, .button-filter{
+      width: 240px;
+      margin-left:0;
+      margin-right: 0;
+      font-size: 1em;
+      border:none;
+  }
+	.img {
+    width: 70px;  
+  }
+  .h1-text, .h1-name {
+    font-size: 1.5em;
+  }
+	table, .btn-fix, .btn-back{
+      font-size: 0.9em;
+  }
+  .btn-hover:hover, .btn-fix, btn-back {
+     padding: 4px 10px;
+     border-radius: 15px;
+  }
 	table button.two{
-		padding: 3px 8px;
-	   	border-radius: 15px;
-	   	font-size: 1em;
-   		width: 70px;
-
-	}
+    padding: 6px 8px;
+      border-radius: 15px;
+      font-size: 0.7em;
+      width: 70px;
+  }
 	.h1-text2{
-		font-size: 1.2em;
-		margin:0;
-		padding:0;
-	}
+    font-size: 1.2em;
+    margin:0;
+    padding:0;
+  }
+  .h1-a {
+    margin: 10px;
+  }
 	.btn-fix{
-	   width:90px;
-	}
-
+     width:90px;
+  }
+  th, td, .mapa {
+    font-size: 0.8em;
+  }
 }
 
 
