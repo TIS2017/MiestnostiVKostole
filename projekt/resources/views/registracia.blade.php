@@ -6,10 +6,10 @@
 	<div class="section">
 		@include('layouts.includes.error')
 		<h1 class="center h1-text2">
-		 	<a class="h1-a active" href="/registracia">REGISTER</a>
+		 	<a class="h1-a active1" href="/registracia">REGISTER</a>
 	    	<a  class="h1-a" href="/prihlasenie">LOG IN</a>
 	    </h1>
-	    <form method="POST" action="{{ url('/registracia') }}">
+	    <form class="formular" method="POST" action="{{ url('/registracia') }}">
 	    {{ csrf_field() }}
 	    	<p class="formular" align="center">
 		    	<input type="text" placeholder="MENO" name="firstname" value="{{ old('firstname') }}" required>

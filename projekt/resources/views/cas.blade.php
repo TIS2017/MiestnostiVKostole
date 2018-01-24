@@ -14,9 +14,8 @@
 
 	<div class="content">
 		<div class="content-second">
-
-				<form method="post" action="{{action('FilterController@filterTime')}}">
-						{{ csrf_field() }}
+		 	<form method="post" action="{{action('FilterController@filterTime')}}">
+			{{ csrf_field() }}
 			 	<p align="center">
 			 		<span class="text">DEŇ:</span>
 			        <select class="den" name="den" id="den">
@@ -30,19 +29,28 @@
 			            <option value="7">Nedeľa</option>
 			        </select>
 
-					<select class="od" name="od" id="od">
-							<option value="0">--od--</option>
-							@for ($i = 1; $i < 25; $i++)
-							<option value="{{ $i }}">{{$i}}</option>
-							   @endfor
-						</select>
-			 
-						<select class="do" name="do" id="do">
-							<option value="24">--do--</option>
-							@for ($i = 1; $i < 25; $i++)
-							<option value="{{ $i }}">{{$i}}</option>
-							   @endfor
-						</select>
+			        <span class="text">ČAS:</span> 
+			        <select class="od" name="od" id="od">
+						<option value="00:00">--od--</option>
+						@for ($i = 1; $i < 25; $i++)
+							@if ($i < 10)
+								<option value="{{ "0".$i.":00" }}">0{{$i.":00"}}</option>
+							@else
+								<option value="{{ $i.":00" }}">{{$i.":00"}}</option>
+							@endif
+
+						@endfor
+					</select>
+			        <select class="do" name="do" id="do">
+						<option value="24:00">--do--</option>
+						@for ($i = 1; $i < 25; $i++)
+							@if ($i < 10)
+								<option value="{{ "0".$i.":00" }}">0{{$i.":00"}}</option>
+							@else
+								<option value="{{ $i.":00" }}">{{$i.":00"}}</option>
+							@endif
+						@endfor
+					</select>
 
     				<button class="button-filter" type="submit">FILTRUJ</button>
 		    	</p>
@@ -54,11 +62,9 @@
 
 		<!-- Nazvy miestnosti a skupiny -->
 
-
 		@if(!empty($times))
-		@foreach ($times as $time)
-
-			<h1 class="h1-text">{{ $day or 'Pondelok' }} {{ $from or '00:00' }} | {{ $to or '24:00' }}</h1>
+		
+			<h1 class="h1-text">{{ $day or 'Pondelok' }} {{ $from or '00:00' }} - {{ $to or '24:00' }}</h1>
 			<table class="filtab">
 				<thead>
 			 		<tr>
@@ -66,9 +72,11 @@
 	   					<th class="filter">skupina</th>
 			  		</tr>
 			  	</thead>
+
+			  	@foreach ($times as $time)
 		  		<tr>
-		    		<td>{{ $time->room }}</td>
-		    		<td><a href="/cas/udaje-o-skupine" class="btn-hover">{{ $time->group }}</a></td>
+		    		<td> {{ $time->room }}</td>
+		    		<td><a href="/udaje-o-skupine/{{ $time->group }}" class="btn-hover">{{ $time->group }}</a></td>
 		    		<?php
 		    		//tiez iba naduzivatel a administrator
 		    		//pridat moze iba ak je volna miestnost
@@ -76,11 +84,9 @@
 		    		//<td><button class="two" type="submit">Pridať</button></td>
 		    		?>
 		  		</tr>
-			 </table>
-			 
-			 @endforeach
-		@endif	
-
+		 	@endforeach
+		 	</table>
+		@endif
 	 	</div>
 </section>
 
