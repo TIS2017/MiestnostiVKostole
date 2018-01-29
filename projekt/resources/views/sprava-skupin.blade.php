@@ -92,21 +92,34 @@
   </div>
 	<div class="padding">		
 		  <h1 class="h1-text">ŽIADOSTI</h1>
-			<table class="filtab">
-			 		<tr>
-					   	<th class="width-200">MENO PRIEZVISKO</th>
-	   					<th class="width-200">žiadosť o pridanie</th>
-              <th class="filter"><button type="submit" class="btn-fix btn-back">schváliť</button></th>
-              <th class="filter"><button type="submit" class="btn-fix btn-back">zamietnuť</button></th>
-			  	</tr>
-          <tr>
-					   	<th class="width-200">MIESTNOSŤ</th>
-	   					<th class="width-200">11:00</th>
-              <th class="filter"><button type="submit" class="btn-fix btn-back">schváliť</button></th>
-              <th class="filter"><button type="submit" class="btn-fix btn-back">zamietnuť</button></th>
-			  	</tr>
-		 	</table>
-	 	</div>
+      @if(!empty($requests))
+            @if($requests->count()==0)
+                <p align=center>V tejto skupine sa nenachádzajú žiadne žiadosti.</p>
+            @else
+          			<table class="filtab">
+                @foreach ($requests as $request)
+                    <tr>
+          					   	<td class="width-200">{{$request->room}}</td>
+          	   					<td class="width-200">{{$request->time}}</td>
+                        <td class="filter">
+                        <form method="post" action="{{action('GroupManagementController@confirmRequest', [$groupname, $request->meeting_id])}}" >
+                        {{ csrf_field() }}
+                            <button type="submit" class="btn-fix btn-back">schváliť</button>
+                        </form>
+                        </td>
+                        <td class="filter">
+                        <form method="post" action="{{action('GroupManagementController@deleteRequest', [$groupname, $request->meeting_id])}}" >
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                            <button type="submit" class="btn-fix btn-back">zamietnuť</button>
+                        </form>
+                        </td>
+          			  	</tr>
+                @endforeach 
+          		 	</table>
+            @endif
+      @endif
+	</div>
 </section>
 
 <script src="{{ asset('js/custom.js') }}"></script>
