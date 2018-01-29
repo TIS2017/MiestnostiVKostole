@@ -43,18 +43,31 @@ Route::post('/skupina/filter', 'FilterController@filterGroup');
 Route::get('/skupina', 'FilterController@loadgroups');
 Route::get('/skupina/filter', 'FilterController@filterGroup');
 
-//zobrazenie profilu
-Route::get('/profil', 'profilController@show');
 
 //udaje o skupine
 Route::get('/udaje-o-skupine/{groupname}', 'InfoController@showGroupInfo');
 Route::post('/udaje-o-skupine/{groupname}', 'InfoController@addNotification');
-Route::get('/udaje-o-skupine/', 'InfoController@show');
+Route::get('/udaje-o-skupine/', 'InfoController@showError');
+Route::get('/udaje-o-skupine/{groupname}/{request}', 'InfoController@showError');
 Route::post('/udaje-o-skupine/{groupname}/{request}', 'InfoController@confirmRequest');
 Route::delete('/udaje-o-skupine/{groupname}/{request}', 'InfoController@deleteRequest');
 
 //riadenie skupiny
-Route::get('/sprava-skupin', 'GroupManagementController@show');
+Route::get('/sprava-skupin/{groupname}', 'GroupManagementController@show');
+Route::get('/sprava-skupin/{groupname}/member', 'GroupManagementController@showError');
+Route::post('/sprava-skupin/{groupname}', 'GroupManagementController@addRoom');
+Route::post('/sprava-skupin/{groupname}/member', 'GroupManagementController@addMember');
+
+//zobrazenie profilu
+Route::get('/profil', 'profilController@show');
+Route::get('/profil/{groupname}/delete', 'profilController@showError');
+Route::delete('/profil/{groupname}/delete', 'profilController@deleteGroup');
+
+//uprava udajov pouzivatela
+Route::get('/profil/uprava', 'profilController@showForm');
+Route::get('/profil/uprava/edit', 'profilController@showError');
+Route::post('/profil/uprava/edit', 'profilController@updateData');
+Route::post('/profil/uprava', 'profilController@updatePassword');
 
 //registracia clenov adminom
 Route::get('/profil/vytvor-skupinu', 'RegisterGroupController@show');
@@ -63,4 +76,5 @@ Route::post('/profil/vytvor-skupinu', 'RegisterGroupController@add');
 //registracia skupiny adminom
 Route::get('/profil/vytvor-clena', 'RegisterMemberController@show');
 Route::post('/profil/vytvor-clena', 'RegisterMemberController@add');
+
 
