@@ -98,6 +98,7 @@ class RegisterController extends Controller
         $user->tel = Input::get("tel");
         $user->username = Input::get("username");
         $user->password = bcrypt(Input::get("password"));
+        $user->image_path = "img/profil.jpg";
         $user->is_admin = false;
         $user->save();
         auth()->login($user);

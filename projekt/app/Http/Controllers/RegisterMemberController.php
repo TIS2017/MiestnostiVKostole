@@ -49,6 +49,7 @@ class RegisterMemberController extends Controller
         $user->email = Input::get("email");
         $user->tel = Input::get("tel");
         $user->username = Input::get("username");
+        $user->image_path = "img/profil.jpg";
         $user->password = bcrypt(Input::get("password"));
         $user->is_admin = false;
         $user->save();

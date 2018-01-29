@@ -41,7 +41,6 @@ class FilterController extends Controller
         $chosenday = $collection->get($magicday);
         return View::make('cas')->with('times',$result)->with('to',$to)->with('from',$from)->with('day',$chosenday);
 
-
     }
 
     public function days(){
@@ -70,7 +69,8 @@ class FilterController extends Controller
     public function is_subadmin(){
     	if(Auth::check()){
 			$is_subadmin = DB::table('groups')
-						->where('groups.subadmin_id', '=', Auth::user()->id)
+                        ->join('subadmins', 'subadmins.group_id', '=','groups.id')
+						->where('subadmins.subadmin_id', '=', Auth::user()->id)
 	                   	->count();
 	    }
 	    else
@@ -122,9 +122,10 @@ class FilterController extends Controller
 
         if(Auth::check()){
         $is_subadmin = DB::table('groups')
+                    ->join('subadmins', 'subadmins.group_id', '=','groups.id')
                     ->whereColumn([
                         ['groups.name', '=', $magicGroup],
-                        ['groups.subadmin_id', '=', Auth::user()->id]
+                        ['subadmins.subadmin_id', '=', Auth::user()->id]
                     ])->count();
         }
         else

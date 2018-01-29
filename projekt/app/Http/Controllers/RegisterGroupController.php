@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Subadmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,8 +39,12 @@ class RegisterGroupController extends Controller
 
         $group = new Group;
         $group->name = Input::get("name");
-        $group->subadmin_id = Input::get("subadmin");
         $group->save();
+
+        $subadmin = new Subadmin;
+        $subadmin->group_id = $group->id;
+        $subadmin->subadmin_id = Input::get("subadmin");
+        $subadmin->save();
 
         return redirect('/profil')->with('Skupina','OK');
     }

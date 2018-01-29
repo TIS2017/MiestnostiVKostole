@@ -14,7 +14,8 @@ class InfoController extends Controller
     public function showGroupInfo($groupname){
         
         $subadmin_data = DB::table('groups')
-					->join('users', 'groups.subadmin_id', '=', 'users.id')
+                    ->join('subadmins', 'subadmins.group_id', '=','groups.id')
+					->join('users', 'subadmins.subadmin_id', '=', 'users.id')
                     ->select('groups.name as name', 'users.firstname as firstname', 'users.lastname as lastname', 'users.tel as tel', 'users.email as email')
                     ->where('groups.name', '=', $groupname)
                     ->get();
@@ -30,9 +31,10 @@ class InfoController extends Controller
 
         if(Auth::check()){
             $is_subadmin = DB::table('groups')
+                    ->join('subadmins', 'subadmins.group_id', '=','groups.id')
                     ->whereColumn([
                         ['groups.name', '=', $groupname],
-                        ['groups.subadmin_id', '=', Auth::user()->id]
+                        ['subadmins.subadmin_id', '=', Auth::user()->id]
                     ])->count();
 
             $is_member = DB::table('groups')
@@ -44,9 +46,10 @@ class InfoController extends Controller
             $requests = DB::table('users')
                         ->join('group_connects', 'group_connects.user_id', '=', 'users.id')
                         ->join('groups', 'group_connects.group_id', '=', 'groups.id')
+                        ->join('subadmins', 'subadmins.group_id', '=','groups.id')
                         ->select('users.firstname as firstname', 'users.lastname as lastname', 'group_connects.id as group_id')
                         ->where('groups.name', '=', $groupname)
-                        ->where('groups.subadmin_id', '=', Auth::user()->id)
+                        ->where('subadmins.subadmin_id', '=', Auth::user()->id)
                         ->where('group_connects.group_connection','=', false)
                         ->get();
         }
@@ -55,8 +58,11 @@ class InfoController extends Controller
             $is_member = 0;
             $requests = 0;
         }
-                    
-        return View::make('udaje-o-skupine')->with('subadmin_data', $subadmin_data)->with('members', $members)->with('is_subadmin', $is_subadmin)->with('groupName',$groupname)->with('is_member',$is_member)->with('requests',$requests);
+        if($subadmin_data->count() == 0){
+            return abort(404);
+        }
+        else        
+            return View::make('udaje-o-skupine')->with('subadmin_data', $subadmin_data)->with('members', $members)->with('is_subadmin', $is_subadmin)->with('groupName',$groupname)->with('is_member',$is_member)->with('requests',$requests);
     }
 
     public function addNotification($groupname){
@@ -77,10 +83,6 @@ class InfoController extends Controller
         return redirect('/udaje-o-skupine/'.$groupname)->with('Status','OK');
     }
 
-    public function show(){
-        return redirect('/');
-    }
-
     public function confirmRequest($groupname, $request){
         $r = \App\GroupConnect::find($request);
         $r->group_connection = true;
@@ -91,5 +93,9 @@ class InfoController extends Controller
     public function deleteRequest($groupname, $request){
         \App\GroupConnect::destroy($request);
         return back();
+    }
+
+    public function showError(){
+        return abort(404);
     }
 }
