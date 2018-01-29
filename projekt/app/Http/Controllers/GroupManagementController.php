@@ -42,11 +42,19 @@ class GroupManagementController extends Controller
                     ->select('users.id', 'users.firstname', 'users.lastname')
                     ->get();
 
+            $requests = DB::table('meetings')
+                        ->join('dates', 'meetings.date_id', '=', 'dates.id')
+                        ->join('rooms', 'rooms.id', '=', 'meetings.room_id')
+                        ->select('rooms.name as room', 'dates.time as time', 'meetings.id as meeting_id')
+                        ->where('meetings.is_approved', '=', false)
+                        ->where('meetings.group_id', '=', $this->getGroupId($groupname))
+                        ->get();
+
             //skupina neexistuje
             if($group == 0)
                 return abort(404);
             else
-    		    return view('sprava-skupin',['members' => $members, 'groupname'=> $groupname, 'rooms' => $rooms, 'users' => $users]);
+    		    return view('sprava-skupin',['members' => $members, 'groupname'=> $groupname, 'rooms' => $rooms, 'users' => $users, 'requests' => $requests]);
     	}
         //nie je admin
     	return abort(404);
@@ -86,6 +94,7 @@ class GroupManagementController extends Controller
             $meeting->room_id = Input::get("room");
             $meeting->group_id = $group_id; 
             $meeting->repeat = 7;  // tu je tiez na nic zatial
+            $meeting->is_approved = true;
             $meeting->save();
 
             return back()->with('status', 'OK');
@@ -157,6 +166,20 @@ class GroupManagementController extends Controller
                 return back()->with('StatusAdmin', 'OK');
             }
         }
+    }
+
+    public function confirmRequest($groupname, $request){
+        $m = \App\Meeting::find($request);
+        $m->is_approved = true;
+        $m->save();
+        return back();
+    }
+
+    public function deleteRequest($groupname, $request){
+        $id_date = \App\Meeting::find($request)->date_id;
+        \App\Date::destroy($id_date);
+        \App\Meeting::destroy($request);
+        return back();
     }
 
     public function getGroupId($groupname)
