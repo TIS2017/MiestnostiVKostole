@@ -1,6 +1,7 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
+  padding-right: 0px !important;
 }
 div.alert-messages {
     position: fixed;
@@ -174,7 +175,11 @@ select.do {
     border-bottom-left-radius: 0px;
     text-align: left;*/
 }
-input[type=text] {
+
+select.time{
+  width: 90px;
+}
+input[type=text], .file{
     width: 320px;
     padding: 14px 20px;
     margin: 8px 50px;
@@ -187,6 +192,9 @@ input[type=text] {
     text-align: center;
     font-size: 17px;
     resize: vertical;
+}
+.file{
+    width: 400px;
 }
 input[type=text], input[type=password] {
     width: 320px;
@@ -260,6 +268,10 @@ table button.two {
     font-weight: bold;
     font-size: 17px;
 }
+.button-reg-login-udaje:hover{
+  text-decoration: none;
+  color: white;
+}
 
 article {
 	height: 100px;
@@ -300,7 +312,6 @@ table.filtab {
   text-align: center;
   color: rgb(128,51,0);
   font-size: 20px;
-  font-weight: bold;
   width: 70%;
   margin-left: auto;
   margin-right: auto;
@@ -408,6 +419,10 @@ table td{
    text-decoration: none;
    margin: 25px;
 }
+.btn-manage{
+    padding: 6px 16px;
+}
+
 .btn-back:hover{
 	text-decoration: none;
 	color: white;
@@ -478,7 +493,7 @@ table td{
 }
 
 @media (max-width: 660px) {
-	.button-reg-login-udaje, input[type=text],input[type=password], .vyber, .button-filter{
+	.file, .button-reg-login-udaje, input[type=text],input[type=password], .vyber, .button-filter{
     	width: 240px;
     	margin-left:0;
     	margin-right: 0;
@@ -494,7 +509,7 @@ table td{
 }
 
 @media (max-width: 540px) {
-	.button-reg-login-udaje, input[type=text],input[type=password], .vyber, .den, .od, .do, .button-filter{
+	.file, .button-reg-login-udaje, input[type=text],input[type=password], .vyber, .den, .od, .do, .button-filter{
       width: 240px;
       margin-left:0;
       margin-right: 0;
