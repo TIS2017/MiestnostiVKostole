@@ -106,18 +106,30 @@ class GroupManagementController extends Controller
         if(Input::get("name")=="vyber" || Input::get("type")=="vyber")
             return back()->withInput()->withErrors(['Status' => 'Nie sú vyplnené všetky údaje.']);
 
-        if(Input::get("type") == 1)
-        {
-            $is_member = DB::table('group_connects')
+        $is_subadmin = DB::table('groups')
+                        ->join('subadmins', 'subadmins.group_id', '=','groups.id')
+                        ->where('groups.name','=', $groupname)
+                        ->where('subadmins.subadmin_id', '=', Input::get("name"))
+                        ->count();
+
+        $is_member = DB::table('group_connects')
                         ->join('groups', 'group_connects.group_id', '=', 'groups.id')
                         ->where('groups.name', '=', $groupname)
                         ->where('group_connects.user_id', '=', Input::get("name"))
                         ->count();
 
+        if(Input::get("type") == 1)
+        {
             if($is_member > 0)
                 return back()->withInput()->withErrors(['Status' => 'Vybraný používateľ je už členom tejto skupiny.']);
             else
             {
+                //ak je naduzivatelom, tak sa mu zrusia prava
+                if($is_subadmin > 0)
+                {
+                    $id = \App\Subadmin::where('subadmin_id',Input::get("name"))->first()->id;
+                    \App\Subadmin::destroy($id);
+                }
                 $group_id = $this->getGroupId($groupname);
                 $gc = new GroupConnect;
                 $gc->user_id = Input::get("name");
@@ -130,16 +142,14 @@ class GroupManagementController extends Controller
         }
         else if(Input::get("type") == 2)
         {
-            $is_subadmin = DB::table('groups')
-                        ->join('subadmins', 'subadmins.group_id', '=','groups.id')
-                        ->where('groups.name','=', $groupname)
-                        ->where('subadmins.subadmin_id', '=', Input::get("name"))
-                        ->count();
-
             if($is_subadmin > 0)
                 return back()->withInput()->withErrors(['Status' => 'Vybraný používateľ je už nadužívateľom tejto skupiny.']);
             else
             {
+                if($is_member > 0){
+                    $id = \App\GroupConnect::where('user_id',Input::get("name"))->first()->id;
+                    \App\GroupConnect::destroy($id);
+                }
                 $group_id = $this->getGroupId($groupname);
                 $subadmin = new Subadmin;
                 $subadmin->group_id = $group_id;
