@@ -14,7 +14,7 @@
                 <th class="width-200">EMAIL:</th>
                 <td>{{ Auth::user()->email }}</td>
                 <td rowspan="2">
-                    <img src="/{{ Auth::user()->image_path }}" alt="fotka" width="200" height="200">
+                    <img class="img" src="/{{ Auth::user()->image_path }}" alt="fotka" width="200" height="200">
                 </td>
              </tr>
              <tr>
@@ -30,18 +30,19 @@
     <div class="padding padding-top">
     @if( Auth::user()->is_admin != true)
         <h1 class="h1-text">MOJE SKUPINY</h1>
-        @if($mygroups->count()==0 && $subadminGroups->count() == 0)
+        @if($mygroups->count()==0 && $subadminGroups->count() == 0 && $subadminGroup->count()==0 && $userGroup->count()==0)
             <p align=center>Zoznam je prázdny.</p>
-        @elseif(!empty($mygroups) || !empty($subadminGroups))
+        @elseif(!empty($mygroups) || !empty($subadminGroups) || !empty($subadminGroup) || !empty($userGroup))
             <table class="filtab">
             <tr>
                 <th class="filter">Skupina</th>
                 <th class="filter">Miestnosť</th>
                 <th class="filter">Čas</th>
-                @if($subadminGroups->count() > 0)
+                @if($subadminGroups->count() > 0 || $subadminGroup->count() > 0)
                 <th class="filter"></th>
                 @endif
             </tr>
+
             @foreach ($mygroups as $group)
             <tr>
                 <td class="filter">{{$group->group}}</td>
@@ -49,8 +50,7 @@
                 <td class="filter">{{$group->time}}</td>
             </tr> 
             @endforeach
-        @endif 
-        @if(!empty($subadminGroups))
+    
             @foreach ($subadminGroups as $group)
             <tr>
                 <td class="filter">{{$group->group}}</td>
@@ -61,8 +61,27 @@
                 </td>
             </tr> 
             @endforeach
-        @endif
+
+            @foreach ($subadminGroup as $g)
+            <tr>
+                <td class="filter">{{$g->group}}</td>
+                <td class="filter"></td>
+                <td class="filter"></td>
+                <td class="filter">
+                    <a href="/udaje-o-skupine/{{ $g->group }}" class="btn-fix btn-back">spravovať</a>
+                </td>
+            </tr> 
+            @endforeach
+         
+            @foreach ($userGroup as $g)
+            <tr>
+                <td class="filter">{{$g->group}}</td>
+                <td class="filter"></td>
+                <td class="filter"></td>
+            </tr> 
+            @endforeach
         </table>
+        @endif
     @else
         <h1 class="h1-text">SKUPINY</h1>
         @if($allgroups->count() > 0)

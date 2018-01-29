@@ -5,7 +5,7 @@
 @if($is_subadmin>0)
 <article>
     <div class="section">
-        <a href="/" class="btn-back">naspäť</a>
+        <a href="#" onclick="goBack();" class="btn-back">naspäť</a>
         <h1 class="h1-name">{{$groupName}}</h1>
     </div>
 </article>
@@ -131,5 +131,11 @@
             showAlert("Žiadosť bola úspešne odoslaná.");
         </script>
     @endif 
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 
 @endsection
