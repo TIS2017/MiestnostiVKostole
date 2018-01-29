@@ -57,6 +57,9 @@ Route::get('/sprava-skupin/{groupname}', 'GroupManagementController@show');
 Route::get('/sprava-skupin/{groupname}/member', 'GroupManagementController@showError');
 Route::post('/sprava-skupin/{groupname}', 'GroupManagementController@addRoom');
 Route::post('/sprava-skupin/{groupname}/member', 'GroupManagementController@addMember');
+Route::get('/sprava-skupin/{groupname}/{request}', 'GroupManagementController@showError');
+Route::post('/sprava-skupin/{groupname}/{request}', 'GroupManagementController@confirmRequest');
+Route::delete('/sprava-skupin/{groupname}/{request}', 'GroupManagementController@deleteRequest');
 
 //zobrazenie profilu
 Route::get('/profil', 'profilController@show');
