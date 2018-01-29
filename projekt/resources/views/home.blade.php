@@ -21,13 +21,7 @@
     @include('layouts.includes.filter')
 </section> 
 
-    <script type="text/javascript">
-        function showAlert(message) {
-            var htmlAlert = '<div class="alert alert-success">' + message + '</div>';
-            $(".alert-messages").prepend(htmlAlert);
-            $(".alert-messages .alert").first().hide().fadeIn(200).delay(2000).fadeOut(1000, function () { $(this).remove(); });
-        }
-    </script>
+    <script src="{{ asset('js/custom.js') }}"></script>
     @if(session('Status'))
         <script type="text/javascript">
             showAlert("Registrácia prebehla úspešne.");

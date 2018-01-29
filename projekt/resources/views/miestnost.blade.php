@@ -23,7 +23,7 @@
 			 		<select  class="vyber" name="room" id="room">
 						<option value="vyber"> --Vyber miestnosť-- </option>
 						@foreach ($roomlist as $item)
-							<option value={{$item}}>  {{$item}}  </option>
+							<option value="{{$item}}">  {{$item}}  </option>
 						@endforeach
 					</select>
 			    	<button class="button-filter" type="submit">FILTRUJ</button>

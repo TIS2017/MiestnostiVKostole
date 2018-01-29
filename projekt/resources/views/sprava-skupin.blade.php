@@ -3,76 +3,88 @@
 
 @section('content')
 
+@include('layouts.includes.error')
 <article>
     <div class="section">
         <a href="/profil" class="btn-back">naspäť</a>
-        <h1 class="h1-name">NÁZOV SKUPINY</h1>
+        <h1 class="h1-name">{{ $groupname }}</h1>
     </div>
 </article>
 <section>
+  <div class="alert-messages text-center"></div>
   <div class="container-fluid section-filtracia">
-
-  <?php /* toto moze len admin*/ ?>
-      <form class="formular">
+      <form method="post" action="{{action('GroupManagementController@addRoom', $groupname)}}" >
+        {{ csrf_field() }}
         <h1 class="h1-text">PRIRADIŤ MIESTNOSŤ</h1>
         <p class="formular" align="center">  
-          <select class="vyber" name="miestnost" id="miestnost">
-            <option value="vyber">--Vyber miestnosť--</option>
-            <option value="1">55</option>
+
+          <select class="vyber" name="room">
+              <option value="vyber">--Vyber miestnosť--</option>
+              @foreach ($rooms as $room)
+              <option value="{{ $room->id }}" {{(Input::old("room") == $room->id ? "selected":"")}}>{{ $room->name }}</option>
+              @endforeach
           </select>
-          <select class="den" name="den" id="den">
-            <option value="vyber">--Vyber deň--</option>
-            <option value="1">Pondelok</option>
-            <option value="2">Utorok</option>
-            <option value="3">Streda</option>
-            <option value="4">Štvrtok</option>
-            <option value="5">Piatok</option>
-            <option value="6">Sobota</option>
-            <option value="7">Nedeľa</option>
+
+          <select class="den" name="day">
+              <option value="vyber">--Vyber deň--</option>
+              <option value="1" {{ (Input::old("day") == 1 ? "selected":"")}}>Pondelok</option>
+              <option value="2" {{ (Input::old("day") == 2 ? "selected":"")}}>Utorok</option>
+              <option value="3" {{ (Input::old("day") == 3 ? "selected":"")}}>Streda</option>
+              <option value="4" {{ (Input::old("day") == 4 ? "selected":"")}}>Štvrtok</option>
+              <option value="5" {{ (Input::old("day") == 5 ? "selected":"")}}>Piatok</option>
+              <option value="6" {{ (Input::old("day") == 6 ? "selected":"")}}>Sobota</option>
+              <option value="7" {{ (Input::old("day") == 7 ? "selected":"")}}>Nedeľa</option>
           </select>
-          <select class="od" name="od" id="od">
-            <option value="vyber">--od--</option>
-            <option value="1">11hod</option>
+
+          <select class="time" name="time">
+              <option value="vyber">--čas--</option>
+              @for ($i = 8; $i < 21; $i++)
+                @if ($i < 10)
+                  <option value="0{{ $i }}:00" {{ (Input::old("time") == "0$i:00" ? "selected":"")}} >0{{ $i }}:00</option>
+                @else
+                  <option value="{{ $i }}:00" {{ (Input::old("time") == "$i:00" ? "selected":"")}}>{{ $i }}:00</option>
+                @endif
+              @endfor
           </select>
-          <select class="do" name="do" id="do">
-            <option value="vyber">--do--</option>
-            <option value="1">12hod</option>
-          </select>
+
           <button type="submit" class="button-reg-login-udaje">PRIDAJ</i></button>
         </p>
       </form>
 
-      <form class="formular">
-        <h1 class="h1-text">PRIDAŤ ČLENA</h1>
-        <p class="formular" align="center">  
-          <select class="vyber" name="meno" id="meno">
-            <option value="vyber">--Vyber člena--</option>
-            <option value="1">Jano Mrkvicka</option>
-          </select>
-          <select class="den" name="pouz" id="pouz">
-            <option value="vyber">--Typ pouz--</option>
-            <option value="1">obyc</option>
-            <option value="2">naduz</option>
-            <option value="3">admin</option>
-          </select>
-          <button type="submit" class="button-reg-login-udaje">PRIDAJ</i></button>
-        </p>
+      <form method="post" action="{{action('GroupManagementController@addMember', $groupname)}}" >
+      {{ csrf_field() }}
+          <h1 class="h1-text">PRIDAŤ ČLENA</h1>
+          <p class="formular" align="center">  
+              <select class="vyber" name="name">
+                <option value="vyber">--Vyber člena--</option>
+                @foreach ($users as $user)
+                    <option value="{{$user->id}}" {{(Input::old("name") == $user->id ? "selected":"")}}>{{$user->firstname}} {{$user->lastname}}</option>
+                @endforeach
+              </select>
+              <select class="den" name="type">
+                  <option value="vyber">--Typ použ.--</option>
+                  <option value="1" {{ (Input::old("type") == 1 ? "selected":"")}}>obyčajný</option>
+                  <option value="2" {{ (Input::old("type") == 2 ? "selected":"")}}>nadužívateľ</option>
+                  <option value="3" {{ (Input::old("type") == 3 ? "selected":"")}}>administrátor</option>
+              </select>
+              <button type="submit" class="button-reg-login-udaje">PRIDAJ</i></button>
+          </p>
       </form>
-      <?php /*-------------------------------*/ ?>
       
     <h1 class="h1-text">ČLENOVIA</h1>
-  	<table class="filtab" align="center">
-  	 	<tr>
-  		 <th class="width-200">MENO PRIEZVISKO</th>
-       <th class="width-200">meno@nieco.com</th>
-       <th class="width-200">0900 000 000</th>
-  	  </tr>		
-      <tr>
-  		 <th class="width-200">MENO PRIEZVISKO</th>
-       <th class="width-200">meno@nieco.com</th>
-       <th class="width-200">0900 000 000</th>
-  	  </tr> 	
- 	 	</table>  
+    @if($members->count() == 0)
+        <p align=center class="formular">Skupina nemá žiadnych členov.</p>
+    @else
+    	<table class="filtab formular" align="center">
+          @foreach ($members as $member)
+          <tr>
+              <td class="width-200">{{$member->firstname}}  {{$member->lastname}}</td>
+              <td class="width-200">{{$member->email}}</td>
+              <td class="width-200">{{$member->tel}}</td>
+          </tr>     
+          @endforeach    
+      </table>    
+    @endif
   </div>
   <div class="content">
     <div class="content-second">
@@ -97,4 +109,23 @@
 	 	</div>
 </section>
 
+<script src="{{ asset('js/custom.js') }}"></script>
+
+    @if(session('status'))
+        <script type="text/javascript">
+            showAlert("Miestnosť bola úspešne priradená.");
+        </script>
+    @elseif(session('StatusMember'))
+        <script type="text/javascript">
+            showAlert("Člen bol úspešne priradený do tejto skupiny.");
+        </script>
+    @elseif(session('StatusSubadmin'))
+        <script type="text/javascript">
+            showAlert("Nadužívateľ bol úspešne priradený do tejto skupiny.");
+        </script>
+    @elseif(session('StatusAdmin'))
+        <script type="text/javascript">
+            showAlert("Používateľ bol úspešne priradený ako administrátor.");
+        </script>
+    @endif
 @endsection

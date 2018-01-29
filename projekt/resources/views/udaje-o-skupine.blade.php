@@ -5,7 +5,7 @@
 @if($is_subadmin>0)
 <article>
     <div class="section">
-        <a href="/udaje-o-skupine" class="btn-back">naspäť</a>
+        <a href="/" class="btn-back">naspäť</a>
         <h1 class="h1-name">{{$groupName}}</h1>
     </div>
 </article>
@@ -20,9 +20,9 @@
             <table class="filtab" align="center">
             @foreach ($members as $member)
                 <tr>
-                    <th class="width-200">{{$member->firstname}}  {{$member->lastname}}</th>
-                    <th class="width-200">{{$member->email}}</th>
-                    <th class="width-200">{{$member->tel}}</th>
+                    <td class="width-200">{{$member->firstname}}  {{$member->lastname}}</td>
+                    <td class="width-200">{{$member->email}}</td>
+                    <td class="width-200">{{$member->tel}}</td>
               </tr>     
               @endforeach    
             </table>  
@@ -64,12 +64,9 @@
     <section>
         <div class="alert-messages text-center"></div>
         <div class="section padding-bottom">
-            <a href="/udaje-o-skupine" class="btn-back">naspäť</a>
+            <a href="/" class="btn-back">naspäť</a>
 
             @if(!empty($subadmin_data))
-                @if($subadmin_data->count()==0)
-                    <h1 class="h1-name" align=center>Skupina neexistuje.</h1>
-                @else
                     @foreach ($subadmin_data as $data)
                         <h1 class="h1-name">{{$groupName}}</h1>
                         <table class="color-white-profil">
@@ -96,7 +93,6 @@
                             @endif
                         </table>
                     @endforeach
-                @endif
             @endif
         </div>
 
@@ -129,13 +125,7 @@
         @endif
     @endif
 </section> 
-    <script type="text/javascript">
-        function showAlert(message) {
-            var htmlAlert = '<div class="alert alert-success">' + message + '</div>';
-            $(".alert-messages").prepend(htmlAlert);
-            $(".alert-messages .alert").first().hide().fadeIn(200).delay(2000).fadeOut(1000, function () { $(this).remove(); });
-        }
-    </script>
+    <script src="{{ asset('js/custom.js') }}"></script>
     @if(session('Status'))
         <script type="text/javascript">
             showAlert("Žiadosť bola úspešne odoslaná.");
