@@ -41,6 +41,25 @@ class profilController extends Controller
         ->where('meetings.is_approved', '=', true)
         ->get();
 
+        //skupiny pre naduzivatelov, ktore nemaju ziadnu rezervaciu miestnosti
+        $subadminGroup = DB::table('groups')
+                    ->leftjoin('meetings', 'meetings.group_id', '=', 'groups.id')
+                    ->join('subadmins', 'groups.id', '=', 'subadmins.group_id')
+                    ->select('groups.name as group')
+                    ->where('meetings.group_id', '=', null)
+                    ->where('subadmins.subadmin_id', '=', Auth::user()->id)
+                    ->get();
+
+        //zobrazenie skupin pre clenov, ktore nemaju ziadnu rezerv.
+        $userGroup = DB::table('groups')
+                    ->join('group_connects', 'group_connects.group_id', '=', 'groups.id')
+                    ->leftjoin('meetings', 'meetings.group_id', '=', 'groups.id')
+                    ->select('groups.name as group')
+                    ->where('group_connects.group_connection', '=', true)
+                    ->where('meetings.group_id', '=', null)
+                    ->where('group_connects.user_id', '=', Auth::user()->id)
+                    ->get();
+
         if(Auth::user()->is_admin == true){
             $groups = DB::table('groups')
                 ->select('groups.name as name','groups.id as id')
@@ -49,7 +68,7 @@ class profilController extends Controller
         else
             $groups = 0;
 
-    	return view('profil')->with('mygroups',$mygroups)->with('subadminGroups',$subadmin_groups)->with('allgroups', $groups);
+    	return view('profil')->with('mygroups',$mygroups)->with('subadminGroups',$subadmin_groups)->with('allgroups', $groups)->with('subadminGroup',$subadminGroup)->with('userGroup',$userGroup);
     }
 
     public function showForm()
