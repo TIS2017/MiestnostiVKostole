@@ -27,6 +27,7 @@ class profilController extends Controller
         ->join('rooms', 'rooms.id', '=', 'meetings.room_id')
         ->select('rooms.name as room', 'dates.time as time', 'groups.name as group')
         ->where('group_connects.group_connection', '=', true)
+        ->where('meetings.is_approved', '=', true)
         ->where('group_connects.user_id', '=', Auth::user()->id)
         ->get();
 
@@ -37,6 +38,7 @@ class profilController extends Controller
         ->join('subadmins', 'groups.id', '=', 'subadmins.group_id')
         ->select('rooms.name as room', 'dates.time as time', 'groups.name as group')
         ->where('subadmins.subadmin_id', '=', Auth::user()->id)
+        ->where('meetings.is_approved', '=', true)
         ->get();
 
         if(Auth::user()->is_admin == true){

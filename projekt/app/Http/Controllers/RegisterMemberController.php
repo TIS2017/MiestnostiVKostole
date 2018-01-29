@@ -31,7 +31,7 @@ class RegisterMemberController extends Controller
     public function add(Request $request)
     {
         if(Input::get("skupina")=="vyber")
-            return back()->withErrors(['Status' => 'Musíte vybrať skupinu.']);
+            return back()->withInput()->withErrors(['Status' => 'Musíte vybrať skupinu.']);
 
         $this->validate($request,[
             'firstname' => 'required|max:255',

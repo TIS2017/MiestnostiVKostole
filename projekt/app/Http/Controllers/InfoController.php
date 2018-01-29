@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\GroupConnect;
+use App\Group;
 
 class InfoController extends Controller
 {
@@ -66,14 +67,8 @@ class InfoController extends Controller
     }
 
     public function addNotification($groupname){
-        $groups = DB::table('groups')
-                    ->select('groups.id')
-                    ->where('groups.name', '=', $groupname)
-                    ->get();
-        foreach ($groups as $value) {
-            $id_group=$value->id;
-        }
-
+        $id_group = \App\Group::where('name',$groupname)->first()->id;
+    
         $gc = new GroupConnect;
         $gc->user_id = Auth::user()->id;
         $gc->group_id = $id_group;

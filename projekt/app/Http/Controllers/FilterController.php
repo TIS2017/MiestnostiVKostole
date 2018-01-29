@@ -32,6 +32,7 @@ class FilterController extends Controller
 					->join('groups', 'groups.id', '=', 'meetings.group_id')
                     ->join('dates', 'dates.id', '=', 'meetings.date_id')
                     ->select('rooms.name as room', 'dates.time as time', 'groups.name as group')
+                    ->where('meetings.is_approved', '=', true)
                     ->where('dates.day', '=', $magicday)
                     ->where('dates.time', '>=', $from)
                     ->where('dates.time', '<', $to)
@@ -93,6 +94,7 @@ class FilterController extends Controller
 					->join('groups', 'groups.id', '=', 'meetings.group_id')
                     ->join('dates', 'dates.id', '=', 'meetings.date_id')
                     ->select('dates.time as time', 'groups.name as group', DB::raw("time(strftime('%s', dates.time) + dates.duration * 60,  'unixepoch') as end_time"), 'dates.day as day')
+                    ->where('meetings.is_approved', '=', true)
                     ->where('rooms.name', '=', $magicRoom)
 					->get();
 
@@ -117,6 +119,7 @@ class FilterController extends Controller
 					->join('groups', 'groups.id', '=', 'meetings.group_id')
                     ->join('dates', 'dates.id', '=', 'meetings.date_id')
                     ->select('rooms.name as room', 'dates.time as time', 'groups.name as group', DB::raw("time(strftime('%s', dates.time) + dates.duration * 60,  'unixepoch') as end_time"), 'dates.day as day')
+                    ->where('meetings.is_approved', '=', true)
                     ->where('groups.name', '=', $magicGroup)
                     ->get();
 

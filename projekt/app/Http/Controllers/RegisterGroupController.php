@@ -30,7 +30,7 @@ class RegisterGroupController extends Controller
     public function add(Request $request)
     {
         if(Input::get("subadmin")=="vyber")
-            return back()->withErrors(['Status' => 'Musíte vybrať meno vedúceho.']);
+            return back()->withInput()->withErrors(['Status' => 'Musíte vybrať meno vedúceho.']);
 
         $this->validate($request,[
             'name' => 'required|unique:groups|max:255',
