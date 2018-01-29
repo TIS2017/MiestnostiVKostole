@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->boolean('is_admin');
-            $table->string('image_path')->nullable();
+            $table->string('image_path');
             $table->integer('request_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
