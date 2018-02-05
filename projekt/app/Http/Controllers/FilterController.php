@@ -19,28 +19,69 @@ class FilterController extends Controller
 
     public function filterTime(Request $request){
 
+        $post = $request;
         $collection = $this->days();
-
+        $items = \App\Room::where('is_available',true)->get();
         $from = $request->input('od');
         $to = $request->input('do');
         $magicday = $request->input('den');
         if($magicday=="vyber")
             $magicday = 1; //default pondelok
 
+        if(session('day'))
+            $magicday = session('day');
+        if(session('from'))
+            $from = session('from');
+        if(session('to'))
+            $to = session('to');
+
 		$result = DB::table('meetings')
 					->join('rooms', 'rooms.id', '=', 'meetings.room_id')
 					->join('groups', 'groups.id', '=', 'meetings.group_id')
                     ->join('dates', 'dates.id', '=', 'meetings.date_id')
-                    ->select('rooms.name as room', 'dates.time as time', 'groups.name as group')
+                    ->select('rooms.name as room', 'dates.time as time', 'groups.name as group', 'dates.day as day')
                     ->where('meetings.is_approved', '=', true)
                     ->where('dates.day', '=', $magicday)
                     ->where('dates.time', '>=', $from)
                     ->where('dates.time', '<', $to)
+                    ->where('meetings.blacklisted', '=', false)
                     ->get();
 
+        $is_subadmin = $this->is_subadmin();
+        $t = $this->times();
+
+        if($is_subadmin){
+            $groups = DB::table('groups')
+                                ->join('subadmins','subadmins.group_id','groups.id')
+                                ->where('subadmin_id','=',Auth::user()->id)
+                                ->get();
+        }
+        else if(Auth::check() && Auth::user()->is_admin == true)
+        {
+            $groups = DB::table('groups')->get();
+        }
+        else
+        {
+            $groups = null;
+        }
+       
+        $filtered = $t->filter(function ($value, $key) use ($from,$to) {
+            return $value >= $from && $value <= $to;
+        });
 
         $chosenday = $collection->get($magicday);
-        return View::make('cas')->with('times',$result)->with('to',$to)->with('from',$from)->with('day',$chosenday);
+        return View::make('cas')
+        ->with('id_day',$magicday)
+        ->with('times',$result)
+        ->with('to',$to)
+        ->with('from',$from)
+        ->with('collect',$collection)
+        ->with('day',$chosenday)
+        ->with('roomlist', $items)
+        ->with('postdata', $post)
+        ->with('is_subadmin',$is_subadmin)
+        ->with('groups',$groups)
+        ->with('filtered_time',$filtered);
 
     }
 
@@ -85,9 +126,11 @@ class FilterController extends Controller
             return back()->withErrors(['Status' => 'Nezadali ste žiadnu miestnosť.']);
 
         $magicRoom = $request->input('room');
-        $items = \App\Room::pluck('name');
+        $items = \App\Room::where('is_available',true)->get();
         $collection = $this->days();
         $collectionTimes = $this->times(); 
+        if(session('room'))
+            $magicRoom = session('room');
 		
 		$result = DB::table('meetings')
 					->join('rooms', 'rooms.id', '=', 'meetings.room_id')
@@ -96,12 +139,35 @@ class FilterController extends Controller
                     ->select('dates.time as time', 'groups.name as group', DB::raw("time(strftime('%s', dates.time) + dates.duration * 60,  'unixepoch') as end_time"), 'dates.day as day')
                     ->where('meetings.is_approved', '=', true)
                     ->where('rooms.name', '=', $magicRoom)
+                    ->where('meetings.blacklisted', '=', false)
 					->get();
 
 		
 	    $is_subadmin = $this->is_subadmin();
+
+        if($is_subadmin){
+            $groups = DB::table('groups')
+                                ->join('subadmins','subadmins.group_id','groups.id')
+                                ->where('subadmin_id','=',Auth::user()->id)
+                                ->get();
+        }
+        else if(Auth::check() && Auth::user()->is_admin == true)
+        {
+            $groups = DB::table('groups')->get();
+        }
+        else
+        {
+            $groups = null;
+        }
            
-        return View::make('miestnost')->with('roomName',$magicRoom)->with('rooms',$result)->with('roomlist', $items)->with('collect',$collection)->with('times',$collectionTimes)->with('is_subadmin',$is_subadmin);
+        return View::make('miestnost')
+        ->with('roomName',$magicRoom)
+        ->with('rooms',$result)
+        ->with('roomlist', $items)
+        ->with('collect',$collection)
+        ->with('times',$collectionTimes)
+        ->with('is_subadmin',$is_subadmin)
+        ->with('groups',$groups);
 
     }
 
@@ -112,15 +178,18 @@ class FilterController extends Controller
 
         $collection = $this->days();
         $magicGroup = $request->input('group');
+        if(session('groupname'))
+            $magicGroup = session('groupname');
         $items = \App\Group::pluck('name');
 		
 		$result = DB::table('meetings')
 					->join('rooms', 'rooms.id', '=', 'meetings.room_id')
 					->join('groups', 'groups.id', '=', 'meetings.group_id')
                     ->join('dates', 'dates.id', '=', 'meetings.date_id')
-                    ->select('rooms.name as room', 'dates.time as time', 'groups.name as group', DB::raw("time(strftime('%s', dates.time) + dates.duration * 60,  'unixepoch') as end_time"), 'dates.day as day')
+                    ->select('meetings.id as id', 'meetings.repeat as repeat','rooms.name as room', 'dates.time as time', 'groups.name as group', DB::raw("time(strftime('%s', dates.time) + dates.duration * 60,  'unixepoch') as end_time"), 'dates.day as day')
                     ->where('meetings.is_approved', '=', true)
                     ->where('groups.name', '=', $magicGroup)
+                    ->where('meetings.blacklisted', '=', false)
                     ->get();
 
         if(Auth::check()){
@@ -139,7 +208,7 @@ class FilterController extends Controller
     }
 
     public function loadrooms(){
-        $items = \App\Room::pluck('name');
+        $items = \App\Room::where('is_available',true)->get();
         return View::make('miestnost')->with('roomlist', $items);
     }
 

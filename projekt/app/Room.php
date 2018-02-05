@@ -9,6 +9,6 @@ use Eloquent;
 class Room extends Model
 {
     protected $fillable = [
-        'name'
+        'name','abbreviation','is_available'
     ];
 }

@@ -30,8 +30,16 @@ class GroupManagementController extends Controller
                     ->where('group_connects.group_connection','=', true)
                     ->get();
 
+            $subadmins = DB::table('subadmins')
+                    ->join('users', 'subadmins.subadmin_id', '=', 'users.id')
+                    ->join('groups', 'subadmins.group_id', '=', 'groups.id')
+                    ->select('users.firstname as firstname', 'users.lastname as lastname', 'users.tel as tel', 'users.email as email')
+                    ->where('groups.name', '=', $groupname)
+                    ->get();
+
             $rooms = DB::table('rooms')
                     ->select('rooms.id as id', 'rooms.name as name')
+                    ->where('is_available','=',true)
                     ->get();
 
             $group = DB::table('groups')
@@ -54,7 +62,7 @@ class GroupManagementController extends Controller
             if($group == 0)
                 return abort(404);
             else
-    		    return view('sprava-skupin',['members' => $members, 'groupname'=> $groupname, 'rooms' => $rooms, 'users' => $users, 'requests' => $requests]);
+    		    return view('sprava-skupin',['members' => $members, 'groupname'=> $groupname, 'rooms' => $rooms, 'users' => $users, 'requests' => $requests,'subadmins' => $subadmins]);
     	}
         //nie je admin
     	return abort(404);
