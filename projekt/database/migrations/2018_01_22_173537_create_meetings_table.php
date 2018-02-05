@@ -22,6 +22,7 @@ class CreateMeetingsTable extends Migration
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->integer('repeat');
+            $table->boolean('blacklisted');
             $table->boolean('is_approved');
             $table->timestamps();
         });
