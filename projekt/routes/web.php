@@ -35,7 +35,7 @@ Route::post('/miestnost/filter', 'FilterController@filterRoom');
 Route::get('/cas', 'FilterController@showTime');
 Route::post('/cas', 'FilterController@showTime');
 Route::post('/cas/filter', 'FilterController@filterTime');
-Route::get('/cas/filter', 'FilterController@showTime');
+Route::get('/cas/filter', 'FilterController@filterTime');
 
 //filtracia podla skupiny
 Route::post('/skupina', 'FilterController@loadgroups');
@@ -79,5 +79,11 @@ Route::post('/profil/vytvor-skupinu', 'RegisterGroupController@add');
 //registracia skupiny adminom
 Route::get('/profil/vytvor-clena', 'RegisterMemberController@show');
 Route::post('/profil/vytvor-clena', 'RegisterMemberController@add');
+
+Route::get('/pridat', 'ReservationController@show');
+Route::post('/pridat', 'ReservationController@add');
+
+Route::get('/zrusit', 'ReservationController@show');
+Route::post('/zrusit', 'ReservationController@remove');
 
 
