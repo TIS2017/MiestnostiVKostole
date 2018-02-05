@@ -9,7 +9,7 @@
 
     <!-- Mapa -->
     <div class="section-mapa">
-        @include('layouts.includes.mapa')
+        @include('layouts.includes.map')
     </div>
 
     <?php 

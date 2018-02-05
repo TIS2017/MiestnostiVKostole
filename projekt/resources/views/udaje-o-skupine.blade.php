@@ -64,7 +64,7 @@
     <section>
         <div class="alert-messages text-center"></div>
         <div class="section padding-bottom">
-            <a href="/" class="btn-back">naspäť</a>
+            <a href="#" onclick="goBack();" class="btn-back">naspäť</a>
 
             @if(!empty($subadmin_data))
                     @foreach ($subadmin_data as $data)

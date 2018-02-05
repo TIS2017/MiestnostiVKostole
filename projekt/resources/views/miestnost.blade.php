@@ -8,6 +8,7 @@
 	@include('layouts.includes.error')
 </article>
 <section>
+	<div class="alert-messages text-center"></div>
 	<?php 
     	$miestnost="/img/miestnost.png";
     	$cas="/img/cas2.png";
@@ -23,7 +24,7 @@
 			 		<select  class="vyber" name="room" id="room">
 						<option value="vyber"> --Vyber miestnosť-- </option>
 						@foreach ($roomlist as $item)
-							<option value="{{$item}}">  {{$item}}  </option>
+							<option value="{{$item->name}}" {{(!empty($roomName) && $roomName == $item->name ? "selected":"")}}>  {{$item->name}}  </option>
 						@endforeach
 					</select>
 			    	<button class="button-filter" type="submit">FILTRUJ</button>
@@ -32,10 +33,10 @@
 	</div></div>
 		<div class="padding">
 	    <!-- Mapa -->
-		@include('layouts.includes.mapa')
+		@include('layouts.includes.map')
 
 		<!-- Nazvy miestnosti -->
-		@if(!empty($rooms) && !empty($roomName) )
+		@if(!empty($roomName) )
 		
 			<h1 class="h1-text">{{ $roomName }}</h1>
 			<ul class="nav nav-pills nav-justified">
@@ -55,23 +56,59 @@
 					  		</tr>
 					 	</thead>
 						@foreach ($times as $key=>$t)
-							@foreach ($rooms as $room)
+						<?php $gtime = null; ?>
+							@if(!empty($rooms))
+								@foreach ($rooms as $room)
 								<tr>
-								@if($day==$collect->get($room->day) && $t==$room->time)
-							    	<td> {{ $room->time }} - {{ \Illuminate\Support\Str::limit($room->end_time, $limit = 5, $end = '') }} </td>
-							    	<td><a href="/udaje-o-skupine/{{ $room->group }}" class="btn-hover">{{ $room->group }}</a></td>
-							  	@else
-							    		<td> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
-							    		<td> - </td>
-
-							    		@if( Auth::check() && Auth::user()->is_admin == true || $is_subadmin > 0) 
-							    			<td><button class="two" type="submit">Pridať</button></td>
-							    		@endif
-							  	@break;
-							  	@endif
+									@if($day==$collect->get($room->day) && $t==$room->time)
+										<?php $gtime = $t ?>
+										<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+							    		<td class="filter"><a href="/udaje-o-skupine/{{ $room->group }}" class="btn-hover">{{ $room->group }}</a></td>
+							  		@endif
 							  	</tr>
-				  			@endforeach
-				  		@endforeach
+							  	@endforeach
+
+							 @if($gtime == null)
+								<tr>	  
+							 	<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+								<td class="filter"> - </td>
+
+								@if( Auth::check() && Auth::user()->is_admin == true || $is_subadmin > 0)
+									<td class="filter"><button  
+										data-roomname="{{ $roomName }}" 
+										data-userid="{{ Auth::user()->id }}"
+										data-subadming="{{$groups}}"
+										data-od = "{{$t}}"
+										data-den = "{{$day}}"
+										class="two" 
+										data-toggle="modal" 
+										data-target="#rezervacia" 
+										type="button">Pridať </button>
+									</td>
+								@endif
+							 @endif
+
+							@else
+									<tr>
+										<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+										<td class="filter"> - </td>
+										@if( Auth::check() && Auth::user()->is_admin == true || $is_subadmin > 0)
+											<td class="filter"><button  
+												data-roomname="{{ $roomName }}" 
+												data-userid="{{ Auth::user()->id }}"
+												data-subadming="{{$groups}}"
+												data-od = "{{$t}}"
+												data-den = "{{$day}}"
+												class="two" 
+												data-toggle="modal" 
+												data-target="#rezervacia" 
+												type="button">Pridať </button>
+											</td>
+										@endif
+							@endif
+							</tr>
+						  @endforeach
+						  
 			  		</table>
 		  		</div>
 		  	
@@ -79,7 +116,15 @@
 		 	</div>
 		@endif
 	 	</div>
+	 	@include('rezervacia-miestnosti')
 </section>
+
+<script src="{{ asset('js/custom.js') }}"></script>
+@if(session('Status'))
+	<script type="text/javascript">
+		showAlert("Rezervácia miestnosti prebehla úspešne.");
+	</script>
+@endif
 
 @endsection
 

@@ -47,7 +47,7 @@
               @endfor
           </select>
 
-          <button type="submit" class="button-reg-login-udaje">PRIDAJ</i></button>
+          <button type="submit" class="button-reg-login-udaje">PRIDAJ</button>
         </p>
       </form>
 
@@ -70,7 +70,18 @@
               <button type="submit" class="button-reg-login-udaje">PRIDAJ</i></button>
           </p>
       </form>
-      
+    @if($subadmins->count() > 0) 
+    <h1 class="h1-text">VEDÚCI</h1>
+    <table class="filtab formular" align="center">
+          @foreach ($subadmins as $s)
+          <tr>
+              <td class="width-200">{{$s->firstname}}  {{$s->lastname}}</td>
+              <td class="width-200">{{$s->email}}</td>
+              <td class="width-200">{{$s->tel}}</td>
+          </tr>     
+          @endforeach    
+    </table> 
+    @endif
     <h1 class="h1-text">ČLENOVIA</h1>
     @if($members->count() == 0)
         <p align=center class="formular">Skupina nemá žiadnych členov.</p>
