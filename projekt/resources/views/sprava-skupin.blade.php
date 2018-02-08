@@ -16,7 +16,7 @@
       <form method="post" action="{{action('GroupManagementController@addRoom', $groupname)}}" >
         {{ csrf_field() }}
         <h1 class="h1-text">PRIRADIŤ MIESTNOSŤ</h1>
-        <p class="formular" align="center">  
+        <p class="formular1" align="center">  
 
           <select class="vyber" name="room">
               <option value="vyber">--Vyber miestnosť--</option>
@@ -54,7 +54,7 @@
       <form method="post" action="{{action('GroupManagementController@addMember', $groupname)}}" >
       {{ csrf_field() }}
           <h1 class="h1-text">PRIDAŤ ČLENA</h1>
-          <p class="formular" align="center">  
+          <p class="formular1" align="center">  
               <select class="vyber" name="name">
                 <option value="vyber">--Vyber člena--</option>
                 @foreach ($users as $user)
@@ -75,9 +75,9 @@
     <table class="filtab formular" align="center">
           @foreach ($subadmins as $s)
           <tr>
-              <td class="width-200">{{$s->firstname}}  {{$s->lastname}}</td>
-              <td class="width-200">{{$s->email}}</td>
-              <td class="width-200">{{$s->tel}}</td>
+              <td class="width-200 tr-padding">{{$s->firstname}}  {{$s->lastname}}</td>
+              <td class="width-200 tr-padding">{{$s->email}}</td>
+              <td class="width-200 tr-padding">{{$s->tel}}</td>
           </tr>     
           @endforeach    
     </table> 
@@ -89,9 +89,9 @@
     	<table class="filtab formular" align="center">
           @foreach ($members as $member)
           <tr>
-              <td class="width-200">{{$member->firstname}}  {{$member->lastname}}</td>
-              <td class="width-200">{{$member->email}}</td>
-              <td class="width-200">{{$member->tel}}</td>
+              <td class="width-200 tr-padding">{{$member->firstname}}  {{$member->lastname}}</td>
+              <td class="width-200 tr-padding">{{$member->email}}</td>
+              <td class="width-200 tr-padding">{{$member->tel}}</td>
           </tr>     
           @endforeach    
       </table>    

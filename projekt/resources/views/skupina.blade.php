@@ -20,7 +20,7 @@
 		 	<form method="post" action="{{action('FilterController@filterGroup')}}" >
 					{{ csrf_field() }}
 			 	<p align="center">
-				 	<select  name="group" id="group">
+				 	<select class="vyber" name="group" id="group">
 							<option value="vyber">--Vyber skupinu--</option>
 							@foreach ($grouplist as $item)
 								<option value={{$item}} {{(!empty($groupName) && $groupName == $item ? "selected":"")}}>  {{$item}}  </option>

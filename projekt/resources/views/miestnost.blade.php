@@ -124,6 +124,11 @@
 	<script type="text/javascript">
 		showAlert("Rezervácia miestnosti prebehla úspešne.");
 	</script>
+
+@elseif(session('Error'))
+	<script type="text/javascript">
+		showAlert("Miestnosť je obsadená.");
+	</script>
 @endif
 
 @endsection

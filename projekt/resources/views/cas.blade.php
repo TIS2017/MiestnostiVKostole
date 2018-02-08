@@ -82,10 +82,10 @@
 						@foreach($times as $time)
 							<tr>
 								@if($day==$collect->get($time->day) && $t==$time->time)
-								<td> {{ $t }} - {{ $key== $filtered_time->last()  ? '21:00' : $filtered_time->get($key+1) }} </td>
-		    					<td> {{ $time->room }}</td>
-								<td><a href="/udaje-o-skupine/{{ $time->group }}" class="btn-hover">{{ $time->group }}</a></td>
-							
+								<td class="filter"> {{ $t }} - {{ $key== $filtered_time->last()  ? '21:00' : $filtered_time->get($key+1) }} </td>
+		    					<td class="filter"> {{ $time->room }}</td>
+								<td class="filter"><a href="/udaje-o-skupine/{{ $time->group }}" class="btn-hover">{{ $time->group }}</a></td>
+								
 								@endif
 							</tr>
 						@endforeach
@@ -94,10 +94,10 @@
 						@if($gtime == null)
 							<tr> 
 								@if($t != $filtered_time->last())
-									<td> {{ $t }} - {{ $key== $filtered_time->last()  ? null : $filtered_time->get($key+1) }} </td>
-									<td> - </td>
-									<td> - </td>
-									<td><button  
+									<td class="filter"> {{ $t }} - {{ $key== $filtered_time->last()  ? null : $filtered_time->get($key+1) }} </td>
+									<td class="filter"> - </td>
+									<td class="filter"> - </td>
+									<td class="filter"><button 
 										data-userid="{{ Auth::user()->id }}"
 										data-subadming="{{$groups}}"
 										data-od = "{{$t}}"
@@ -128,6 +128,10 @@
 @if(session('Status'))
 	<script type="text/javascript">
 		showAlert("Rezervácia miestnosti prebehla úspešne.");
+	</script>
+@elseif(session('Error'))
+	<script type="text/javascript">
+		showAlert("Miestnosť je obsadená.");
 	</script>
 @endif
 

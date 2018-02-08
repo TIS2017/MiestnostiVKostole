@@ -20,9 +20,9 @@
             <table class="filtab" align="center">
             @foreach ($members as $member)
                 <tr>
-                    <td class="width-200">{{$member->firstname}}  {{$member->lastname}}</td>
-                    <td class="width-200">{{$member->email}}</td>
-                    <td class="width-200">{{$member->tel}}</td>
+                    <td class="width-200 td-padding">{{$member->firstname}}  {{$member->lastname}}</td>
+                    <td class="width-200 td-padding">{{$member->email}}</td>
+                    <td class="width-200 td-padding">{{$member->tel}}</td>
               </tr>     
               @endforeach    
             </table>  
@@ -69,17 +69,11 @@
             @if(!empty($subadmin_data))
                     @foreach ($subadmin_data as $data)
                         <h1 class="h1-name">{{$groupName}}</h1>
+                        <img class="img profil" src="/img/profil.jpg" alt="fotka" width="193" height="209">
                         <table class="color-white-profil">
                             <tr>
                                 <th class="width-200">VEDÚCI SKUPINY:</th>
                                 <td class="width-200">{{$data->firstname}} {{$data->lastname}}</td>
-                                @if (Auth::check ())
-                                    <td rowspan="3" class="width-200">
-                                @else
-                                    <td class="width-200" >
-                                @endif
-                                    <img src="/img/profil.jpg" alt="fotka" width="193" height="209">
-                                </td>
                             </tr>
                             @if (Auth::check ())
                                 <tr>
@@ -106,7 +100,7 @@
                         <table class="filtab">
                         @foreach ($members as $member)
                             <tr>
-                            <th class="mena">{{$member->firstname}}  {{$member->lastname}}</th>
+                            <th class="filter">{{$member->firstname}}  {{$member->lastname}}</th>
                             </tr>          
                         @endforeach
                         </table>

@@ -8,14 +8,12 @@
     <div class="section">
         <a href="/" class="btn-back">naspäť</a>
         <h1 class="h1-name">{{ Auth::user()->firstname}} {{ Auth::user()->lastame }}</h1>
-
+        <img class="img profil" src="/{{ Auth::user()->image_path }}" alt="fotka" width="200" height="200">
          <table class="color-white-profil" align="center">
             <tr>
                 <th class="width-200">EMAIL:</th>
                 <td>{{ Auth::user()->email }}</td>
-                <td rowspan="2">
-                    <img class="img" src="/{{ Auth::user()->image_path }}" alt="fotka" width="200" height="200">
-                </td>
+           
              </tr>
              <tr>
                 <th class="width-200">TELEFÓNNE Č.:</th>
@@ -88,7 +86,7 @@
         <table class="filtab">
             @foreach ($allgroups as $group)
             <tr>
-                <td class="filter padding-top">{{$group->name}}</td>
+                <td class="filter">{{$group->name}}</td>
                 <td class="filter">
                     <a href="/sprava-skupin/{{$group->name}}" class="btn-back btn-manage">spravovať</a>
                 </td>
@@ -103,7 +101,7 @@
             @endforeach
         </table>
         @endif
-        <p align="center" class="padding-top">
+        <p align="center" class="padding-top" >
             <a href="/profil/vytvor-skupinu" class="button-reg-login-udaje btn-profil">VYTVORIŤ SKUPINU</a><br>
             <a href="/profil/vytvor-clena" class="button-reg-login-udaje btn-profil">VYTVORIŤ ČLENA</a>
         </p>
