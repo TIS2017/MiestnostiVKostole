@@ -6,3 +6,4 @@ function showAlert(message, alert = "alert-success") {
 function showModal() {
 	$("#myModal").modal();
 }
+

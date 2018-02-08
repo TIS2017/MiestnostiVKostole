@@ -21,7 +21,7 @@ div.alert-messages {
 	color: rgb(122,79,24);
 	font-weight: bold;
 	text-decoration: none;
-	font-weight: bold;
+//	font-weight: bold;
 }
 .header-text a:hover{
 	text-decoration: none;
@@ -43,11 +43,6 @@ div.alert-messages {
 .section-mapa{                    /*pozadie za mapou*/
 	padding:3%;
 	background-color: rgb(122,79,24);
-}
-table.mapa {                                /*pozadie mapy + ram*/
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px;
 }
 th {
   border: 1px solid black;
@@ -79,10 +74,6 @@ a {
 }
 .dvor {
   border-style: none;  
-}
-.mapa a:hover {
-  text-decoration: none;
-  color: black;
 }
 /*------filtracia-------*/
 .section-filtracia{
@@ -523,6 +514,9 @@ table td{
   table.filtab {
     width: 100%;  
   }
+  .mapa {
+    font-size: 0.7em;
+  }
 }
 
 @media (max-width: 540px) {
@@ -577,7 +571,7 @@ table td{
 	.btn-fix{
      width:90px;
   }
-  th, td, .mapa {
+  th, td {
     font-size: 0.8em;
   }
 }
