@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         '\App\Console\Commands\MeetingVisibility',
+        '\App\Console\Commands\DeleteDaily',
         //
     ];
 
@@ -28,8 +29,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->command('update:meetings')
-        ->everyMinute();
+        $schedule->command('update:meetings')->weekly()->sundays()->at('22:00');
+        $schedule->command('delete:daily')->dailyAt('22:00');
     }
 
     /**

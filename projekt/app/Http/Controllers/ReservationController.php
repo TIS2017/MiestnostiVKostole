@@ -22,7 +22,8 @@ public function add(Request $request){
 
     $this->validate($request,[
         'interval' => 'required',
-        'userid' => 'required'
+        'userid' => 'required',
+        'group_selected' => 'required'
         ]);
 
     //Get current time data
@@ -48,6 +49,9 @@ public function add(Request $request){
 
     $userid = Input::get('userid');
     $interval = Input::get('interval');
+
+    DB::beginTransaction();
+    $status = true;
 
     //Room and Date instance acording to filter
     if($roomname != 'undefined'){
@@ -81,11 +85,47 @@ public function add(Request $request){
     //DEBUG
     //dd("DATE: ".$date. "  ROOM: ".$room. "  GROUP: ".$group. "  MEETING: ".$meeting);
 
-    if($roomname != 'undefined'){
-        return redirect('/miestnost/filter')->with('room',$roomname)->with('Status','OK');
+       //if there is a meeting blacklisted in same time...
+    $test = DB::table('meetings')
+    ->join('dates', 'dates.id','meetings.date_id')
+    ->join('rooms', 'rooms.id', '=', 'meetings.room_id')
+    ->where('blacklisted', '=', true)
+    ->where('rooms.id','=',$room->id)
+    ->select('dates.day','dates.year','dates.time','dates.month','dates.year','dates.week')
+    ->get();
+
+    if($test->count() > 0){
+        foreach($test as $item){
+            if ($item->day == $date->day && $item->year == $date->year && $item->time == $date->time && $item->month == $date->month && $item->week == $date->week && $r_interval == 7){
+                $status = false;
+                DB::rollBack();
+            }
+            else{
+                $status = true;
+                DB::commit();
+            }
+        }
     }
     else{
-        return redirect('/cas/filter')->with('day',$day2)->with('from',Input::get('from'))->with('to',Input::get('to'))->with('Status','OK');
+        $status = true;
+        DB::commit();
+    }
+
+    if($roomname != 'undefined'){
+        if($status){
+            return redirect('/miestnost/filter')->with('room',$roomname)->with('Status','OK');
+        }
+        else{
+            return redirect('/miestnost/filter')->with('room',$roomname)->with('Error','Error');
+        }
+    }
+    else{
+        if($status){
+            return redirect('/cas/filter')->with('day',$day2)->with('from',Input::get('from'))->with('to',Input::get('to'))->with('Status','OK');
+        }
+        else{
+            return redirect('/cas/filter')->with('day',$day2)->with('from',Input::get('from'))->with('to',Input::get('to'))->with('Error','Error');
+        }
     }
 }
     
@@ -162,15 +202,17 @@ public function add(Request $request){
         }
         elseif($type == 1){
             //delete single meeting only once
-            DB::table('meetings')->where('id', '=', $id)->delete();
+            $this->deleteAll($id);
         }
 
     }
 
     public function deleteAll(String $id){
-        $id_date = \App\Meeting::find($id)->date_id;
-        DB::table('meetings')->where('id', '=', $id)->delete();
-        \App\Date::destroy($id_date);
+        $meeting = Meeting::find($id);
+        $date = Date::find($meeting->date_id);
+
+        $meeting->delete();
+        $date->delete();
     }
 
     public function CreateDate(String $day, String $week, String $month, String $year, String $od){

@@ -10,6 +10,7 @@ use App\Date;
 use App\Meeting;
 use App\GroupConnect;
 use App\Subadmin;
+use Carbon\Carbon;
 
 class GroupManagementController extends Controller
 {
@@ -87,21 +88,25 @@ class GroupManagementController extends Controller
         }
         else
         {
+            $current = new Carbon();
+            $week = $current->weekOfYear;
+            $year = $current->year;
+            $month = $current->month;
             $group_id = $this->getGroupId($groupname);
             $date = new Date;
             $date->day = Input::get("day");
-            $date->week = 1;   //uplne zbytocne, zmazat tento stlpec z db
-            $date->month = 1; //tak isto
-            $date->year = 1; //aj tu
+            $date->week = $week;   
+            $date->month = $month;
+            $date->year = $year; 
             $date->time = Input::get("time");
-            $date->duration = 60; //tiez zbytocne
+            $date->duration = 60; 
             $date->save();
 
             $meeting = new Meeting;
             $meeting->date_id = $date->id;
             $meeting->room_id = Input::get("room");
             $meeting->group_id = $group_id; 
-            $meeting->repeat = 7;  // tu je tiez na nic zatial
+            $meeting->repeat = 7; 
             $meeting->is_approved = true;
             $meeting->save();
 
