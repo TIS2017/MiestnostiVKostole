@@ -16,6 +16,7 @@ Auth::routes();
 
 //uvodna stranka
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 //prihlasenie pouzivatela
 Route::get('/prihlasenie', 'Auth\LoginController@showLoginForm')->name('login');
@@ -30,6 +31,9 @@ Route::get('/miestnost', 'FilterController@loadrooms');
 Route::get('/miestnost/filter', 'FilterController@filterRoom');
 Route::post('/miestnost', 'FilterController@loadrooms');
 Route::post('/miestnost/filter', 'FilterController@filterRoom');
+
+Route::get('/miestnost/filter/{room}', 'MapController@click');
+Route::post('/miestnost/filter/{room}', 'MapController@click');
 
 //filtracia podla casu
 Route::get('/cas', 'FilterController@showTime');
