@@ -48,7 +48,7 @@ class FilterController extends Controller
                     ->get();
 
         $is_subadmin = $this->is_subadmin();
-        $t = $this->times();
+        $t = $this->timesForFilterTime();
 
         if($is_subadmin){
             $groups = DB::table('groups')
@@ -99,13 +99,23 @@ class FilterController extends Controller
     }
     public function times(){
     	$times = collect();
-    	for($i = 8; $i< 21;$i++){
+    	for($i = 8; $i< 24;$i++){
     		if($i<10)
     			$times->put($i, "0$i:00");
     		else
     			$times->put($i, "$i:00");
     	}
     	return $times;
+    }
+    public function timesForFilterTime(){
+        $times = collect();
+        for($i = 8; $i< 25;$i++){
+            if($i<10)
+                $times->put($i, "0$i:00");
+            else
+                $times->put($i, "$i:00");
+        }
+        return $times;
     }
 
     public function is_subadmin(){
@@ -126,7 +136,7 @@ class FilterController extends Controller
             return back()->withErrors(['Status' => 'Nezadali ste žiadnu miestnosť.']);
 
         $magicRoom = $request->input('room');
-        $items = \App\Room::where('is_available',true)->get();
+        $items = $this->getRooms();
         $collection = $this->days();
         $collectionTimes = $this->times(); 
         if(session('room'))
@@ -207,8 +217,25 @@ class FilterController extends Controller
         
     }
 
+    public function getRooms(){
+        $items = \App\Room::where('is_available',true)->select('rooms.name as name')->get();
+        $i = DB::table('meetings')
+                    ->join('rooms', 'rooms.id', '=', 'meetings.room_id')
+                    ->select('rooms.name as name')
+                    ->where('meetings.is_approved', '=', true)
+                    ->where('rooms.is_available', '=', false)
+                    ->where('rooms.name', '!=', 'WC')
+                    ->where('rooms.name', '!=', 'wc')
+                    ->where('meetings.blacklisted', '=', false)
+                    ->get();
+        if($i->count()>0){
+           $items = $items->concat($i);
+        }
+        return $items;
+    }
+
     public function loadrooms(){
-        $items = \App\Room::where('is_available',true)->get();
+        $items = $this->getRooms();
         return View::make('miestnost')->with('roomlist', $items);
     }
 

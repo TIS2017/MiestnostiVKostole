@@ -40,7 +40,8 @@ class GroupManagementController extends Controller
 
             $rooms = DB::table('rooms')
                     ->select('rooms.id as id', 'rooms.name as name')
-                    ->where('is_available','=',true)
+                    ->where('name','!=','WC')
+                    ->where('name','!=','wc')
                     ->get();
 
             $group = DB::table('groups')
@@ -108,6 +109,7 @@ class GroupManagementController extends Controller
             $meeting->group_id = $group_id; 
             $meeting->repeat = 7; 
             $meeting->is_approved = true;
+            $meeting->blacklisted = false;
             $meeting->save();
 
             return back()->with('status', 'OK');
