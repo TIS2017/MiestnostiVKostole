@@ -33,7 +33,7 @@
 			        <span class="text">ČAS:</span> 
 			        <select class="od" name="od" id="od">
 						<option value="08:00">--od--</option>
-						@for ($i = 8; $i < 21; $i++)
+						@for ($i = 8; $i < 24; $i++)
 							@if ($i < 10)
 								<option value="{{ "0".$i.":00" }}" {{ (!empty($from) && $from == "0$i:00" ? "selected":"")}}>0{{$i.":00"}}</option>
 							@else
@@ -43,8 +43,8 @@
 						@endfor
 					</select>
 			        <select class="do" name="do" id="do">
-						<option value="21:00">--do--</option>
-						@for ($i = 9; $i < 22; $i++)
+						<option value="24:00">--do--</option>
+						@for ($i = 9; $i < 25; $i++)
 							@if ($i < 10)
 								<option value="{{ "0".$i.":00" }}" {{ (!empty($to) && $to == "0$i:00" ? "selected":"")}}>0{{$i.":00"}}</option>
 							@else
@@ -65,7 +65,7 @@
 
 		@if(!empty($times))
 		
-			<h1 class="h1-text">{{ $day or 'Pondelok' }} {{ $from or '08:00' }} - {{ $to or '21:00' }}</h1>
+			<h1 class="h1-text">{{ $day or 'Pondelok' }} {{ $from or '08:00' }} - {{ $to or '24:00' }}</h1>
 			<table class="filtab">
 				<thead>
 			 		<tr>
@@ -82,7 +82,7 @@
 						@foreach($times as $time)
 							<tr>
 								@if($day==$collect->get($time->day) && $t==$time->time)
-								<td class="filter"> {{ $t }} - {{ $key== $filtered_time->last()  ? '21:00' : $filtered_time->get($key+1) }} </td>
+								<td class="filter"> {{ $t }} - {{ $key== $filtered_time->last()  ? '24:00' : $filtered_time->get($key+1) }} </td>
 		    					<td class="filter"> {{ $time->room }}</td>
 								<td class="filter"><a href="/udaje-o-skupine/{{ $time->group }}" class="btn-hover">{{ $time->group }}</a></td>
 								

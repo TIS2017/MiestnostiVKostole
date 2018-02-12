@@ -38,7 +38,7 @@
 
           <select class="time" name="time">
               <option value="vyber">--čas--</option>
-              @for ($i = 8; $i < 21; $i++)
+              @for ($i = 8; $i < 24; $i++)
                 @if ($i < 10)
                   <option value="0{{ $i }}:00" {{ (Input::old("time") == "0$i:00" ? "selected":"")}} >0{{ $i }}:00</option>
                 @else

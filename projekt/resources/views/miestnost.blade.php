@@ -62,15 +62,16 @@
 								<tr>
 									@if($day==$collect->get($room->day) && $t==$room->time)
 										<?php $gtime = $t ?>
-										<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+										<td class="filter"> {{ $t }} - {{ $key==23 ? "24:00" : $times->get($key+1) }} </td>
 							    		<td class="filter"><a href="/udaje-o-skupine/{{ $room->group }}" class="btn-hover">{{ $room->group }}</a></td>
 							  		@endif
 							  	</tr>
 							  	@endforeach
 
-							 @if($gtime == null)
+						
+							@if($gtime == null  && ($roomName != 'Vrátnica' || $roomName != '47' || $roomName != '55'))
 								<tr>	  
-							 	<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+							 	<td class="filter"> {{ $t }} - {{ $key==23 ? "24:00" : $times->get($key+1) }} </td>
 								<td class="filter"> - </td>
 
 								@if( Auth::check() && Auth::user()->is_admin == true || $is_subadmin > 0)
@@ -86,11 +87,11 @@
 										type="button">Pridať </button>
 									</td>
 								@endif
-							 @endif
-
+							@endif
+						
 							@else
 									<tr>
-										<td class="filter"> {{ $t }} - {{ $key==20 ? "21:00" : $times->get($key+1) }} </td>
+										<td class="filter"> {{ $t }} - {{ $key==23 ? "24:00" : $times->get($key+1) }} </td>
 										<td class="filter"> - </td>
 										@if( Auth::check() && Auth::user()->is_admin == true || $is_subadmin > 0)
 											<td class="filter"><button  
