@@ -72,14 +72,14 @@ function Building(name, text, x, y, width, height, color, reservable) {
 
 function initBuildings(resources) {
 	let buildings = new Array(
-		new Building(resources[0]['name'], resources[0]['abbreviation'],   		9,   9,   91,  102, 	COLORS["non-reservable"],	false),
-		new Building(resources[1]['name'], resources[1]['abbreviation'], 		99,  9,   142, 102, 	COLORS["reserved"],			true),
+		new Building(resources[0]['name'], resources[0]['abbreviation'],   		9,   9,   91,  102, 	COLORS["reserved"],			true),
+		new Building(resources[1]['name'], resources[1]['abbreviation'], 		99,  9,   142, 102, 	COLORS["non-reservable"],	false),
 		new Building(resources[2]['name'], resources[2]['abbreviation'], 	 	319, 9,   62,  62,	 	COLORS["non-reservable"],	false),
-		new Building(resources[3]['name'], resources[3]['abbreviation'], 	 	459, 9,   92,  112, 	COLORS["non-reservable"],	false),
+		new Building(resources[3]['name'], resources[3]['abbreviation'], 	 	459, 9,   92,  112, 	COLORS["reserved"],			true),
 		new Building(resources[4]['name'], resources[4]['abbreviation'], 	 	549, 9,   92,  112, 	COLORS["reserved"],			true),
 		new Building(resources[5]['name'], resources[5]['abbreviation'], 	 	639, 9,   112, 112, 	COLORS["free"],				true),
 		new Building(resources[6]['name'], resources[6]['abbreviation'],		749, 9,   162, 132,		COLORS["reserved"],			true),
-		new Building(resources[7]['name'], resources[7]['abbreviation'],		9, 139,   122,  82,		COLORS["free"],				true),
+		new Building(resources[7]['name'], resources[7]['abbreviation'],		9, 139,   122,  82,		COLORS["non-reservable"],	false),
 		new Building(resources[8]['name'], resources[8]['abbreviation'], 	 	9, 219,   122,  82,		COLORS["non-reservable"],	false),
 		new Building(resources[9]['name'], resources[9]['abbreviation'], 		759, 169, 152, 132, 	COLORS["reserved"],			true),
 		new Building(resources[10]['name'], resources[10]['abbreviation'],	 	9, 329,   122, 102,		COLORS["reserved"],			true),
