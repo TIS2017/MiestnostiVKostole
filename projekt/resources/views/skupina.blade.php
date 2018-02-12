@@ -23,7 +23,7 @@
 				 	<select class="vyber" name="group" id="group">
 							<option value="vyber">--Vyber skupinu--</option>
 							@foreach ($grouplist as $item)
-								<option value={{$item}} {{(!empty($groupName) && $groupName == $item ? "selected":"")}}>  {{$item}}  </option>
+								<option value="{{$item}}" {{(!empty($groupName) && $groupName == $item ? "selected":"")}}>  {{$item}}  </option>
 							@endforeach
 					</select>
     				<button class="button-filter" type="submit">FILTRUJ</button>
