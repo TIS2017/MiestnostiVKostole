@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	//load image
 	var yard = new Image();
-	yard.src = "{{ asset('img/dvor.png') }}";
+	yard.src = "../../../img/dvor.png";
 	
 	//load rooms and meetings
 	var rooms = <?php echo json_encode($GLOBALS['rooms']) ?>;
